@@ -19,9 +19,11 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Practicing AI
+author: AIMageGuild
+email: aimageguild@gmail.com
 
-baseurl: "/Practicing" # the subpath of your site, e.g. /blog
 url: "https://ai.posetmage.com/" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/Practicing" # the subpath of your site, e.g. /blog
 
 # Build settings
 remote_theme: pages-themes/midnight@v0.2.0
