@@ -10,6 +10,7 @@ def generate_file(directory, category):
         file.write(f"""---
 layout: default
 categories: [{category}]
+title:  "{category}"
 ---
 """)
     print(f"{category} file created at {file_path}!")
