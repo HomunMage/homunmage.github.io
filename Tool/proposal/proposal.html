@@ -1,0 +1,92 @@
+<style>
+  td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .align-left {
+    text-align: left;
+  }
+  .large {
+    font-size: 3em;
+    font-weight: bold;
+    background-color: yellow;
+  }
+  .center-text {
+    text-align: center;
+  }
+  .bold-text {
+    font-weight: bold;
+    background-color: cyan;
+  }
+  .table-cell {
+    width: 100%; /* Ensure the table cell takes up the full width */
+    height: auto; /* Let the image height adjust automatically */
+  }
+  
+  .table-cell img {
+    max-width: 100%; /* Make the image fit within the table cell */
+    height: auto; /* Let the image height adjust automatically */
+  }
+
+  .table-container {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+
+<div class="table-container">
+<table style="width: 720px; table-layout: fixed;">
+  <tr style="height: 20px"></tr>
+  <tr>
+    <td colspan="2" rowspan="2" class="large">{{Game Title}}</td>
+    <td class="bold-text">遊戲類型</td>
+  </tr>
+  <tr>
+    <td>{{Game Type}}</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="bold-text">故事摘要</td>
+    <td class="bold-text">遊戲簡介</td>
+  </tr>
+  <tr>
+    <td colspan="2">{{Introduction}}</td>
+    <td>{{Abstract}}</td>
+  </tr>
+  <tr>
+    <td class="bold-text">遊戲玩法</td>
+    <td class="bold-text">遊戲特色</td>
+    <td class="bold-text">類似競品</td>
+  </tr>
+  <tr>
+    <td class="align-left">{{System}}</td>
+    <td class="align-left">{{Selling Points}}</td>
+    <td class="align-left">{{Competitive}}</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="bold-text">背景設定</td>
+    <td class="bold-text">目標客群平台</td>
+  </tr>
+  <tr>
+    <td colspan="2">{{World}}</td>
+    <td class="align-left">{{TA}}</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="bold-text">視覺風格</td>
+    <td class="bold-text">玩法範例</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="table-cell">{{Concept Art}}</td>
+    <td rowspan="2">{{Play Demo}}</td>
+  </tr>
+  <tr>
+    <td class="table-cell">{{Game Image 1}}</td>
+    <td class="table-cell">{{Game Image 2}}</td>
+  </tr>
+</table>
+</div>
+
+<div style="height: 100px"></div>
+<p class="center-text">
+  <img src="https://posetmage.com/Images/Icon/PosetMage_t.png" height="16" /> PosetMage
+  <img src="https://posetmage.com/Images/Icon/PosetMage_t.png" height="16" />
+</p>
