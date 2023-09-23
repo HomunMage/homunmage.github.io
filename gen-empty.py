@@ -11,6 +11,7 @@ def generate_file(directory, category):
 layout: default
 categories: [{category}]
 title:  "{category}"
+date:   {today_date} 10:00:00 +0800
 ---
 """)
     print(f"{category} file created at {file_path}!")
@@ -23,7 +24,8 @@ if __name__ == "__main__":
     directories_and_categories = {
         './Pitch/': 'Pitch',
         './Novel/': 'Novel',
-        './Copywriting/': 'Copywriting'
+        './Copywriting/': 'Copywriting',
+        './GameDesign/': 'GameDesign'
     }
 
     for dir_path, category in directories_and_categories.items():
