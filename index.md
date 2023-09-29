@@ -6,6 +6,8 @@ layout: default
 
 ## [Copywriting](./Copywriting/)
 
+## [Pitch](./Pitch/)
+
 ## [Novel](./Novel/)
 
-## [Pitch](./Pitch/)
+## [GameDesign](./GameDesign/)
