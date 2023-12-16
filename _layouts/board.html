@@ -1,9 +1,13 @@
 ---
 layout: base
 ---
-<div class="container">
-  <div class="sidebar" id="outline"></div>
-  <div class="content">
+<div class="page-container">
+
+  <aside class="sidebar" id="outline">
+    <!-- Sidebar content will be loaded here -->
+  </aside>
+
+  <main class="page-content">
     <article class="post">
       <header class="post-header">
         <h1 class="post-title">{{ page.title | escape }}</h1>
@@ -13,40 +17,36 @@ layout: base
         {{ content }}
       </div>
     </article>
-  </div>
+  </main>
+
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-      fetch('/outline.html')
-          .then(response => response.text())
-          .then(data => {
-              document.getElementById('outline').innerHTML = data;
-          });
+    fetch('/outline.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('outline').innerHTML = data;
+      });
   });
 </script>
 
 <style>
-  .container {
+  .page-container {
     display: flex;
-    margin: 0 auto;
+    width: 100%;
   }
 
   .sidebar {
-    position: fixed;
-    width: 13em;
-    padding: 1em;
-    overflow: auto;
+    width: 200px; /* Adjust width as needed */
+    padding: 20px;
+    overflow-y: auto;
     height: 100vh;
+    box-sizing: border-box;
   }
 
-  .content {
-    margin-left: 14em;
-  }
-
-  .sidebar p {
-    margin: 0;
-    padding: 0;
-    line-height: 1.2em;
+  .page-content {
+    flex-grow: 1;
+    padding-left: 220px; /* Adjust this value to match the sidebar width + padding */
   }
 </style>
