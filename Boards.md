@@ -1,5 +1,5 @@
 ---
-layout: board
+layout: default
 ---
 
 # practicing AI

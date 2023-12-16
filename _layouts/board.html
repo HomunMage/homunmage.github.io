@@ -73,7 +73,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('/Boards/outline.html')
+        fetch('/outline.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('toc').innerHTML = data;
