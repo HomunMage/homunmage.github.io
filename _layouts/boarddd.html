@@ -32,7 +32,7 @@
       margin-left: 14em;
     }
 
-    /* Reduced line height and spacing for ToC items */
+    /* Reduced line height and spacing for outline items */
     .sidebar p {
       margin: 0;
       padding: 0;
@@ -45,7 +45,7 @@
   {%- include header.html -%}
 
   <div class="container">
-    <div class="sidebar" id="toc"></div>
+    <div class="sidebar" id="outline"></div>
     <div class="content">
       <section id="main_content">
         {{ content }}
@@ -60,7 +60,7 @@
         fetch('/outline.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('toc').innerHTML = data;
+                document.getElementById('outline').innerHTML = data;
             });
     });
   </script>

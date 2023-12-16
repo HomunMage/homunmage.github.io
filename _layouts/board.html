@@ -1,56 +1,52 @@
-<!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+---
+layout: base
+---
+<div class="container">
+  <div class="sidebar" id="outline"></div>
+  <div class="content">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">{{ page.title | escape }}</h1>
+      </header>
 
-  {%- include head.html -%}
+      <div class="post-content">
+        {{ content }}
+      </div>
+    </article>
+  </div>
+</div>
 
-  <style>
-    .container {
-      display: flex;
-    }
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      fetch('/outline.html')
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById('outline').innerHTML = data;
+          });
+  });
+</script>
 
-    .sidebar {
-      position: fixed;
-      width: 13em;
-      padding: 1em;
-      overflow: auto;
-      height: 100vh;
-    }
+<style>
+  .container {
+    display: flex;
+    margin: 0 auto;
+  }
 
-    .page-content {
-      margin-left: 14em;
-    }
+  .sidebar {
+    position: fixed;
+    width: 13em;
+    padding: 1em;
+    overflow: auto;
+    height: 100vh;
+  }
 
-    .sidebar p {
-      margin: 0;
-      padding: 0;
-      line-height: 1.2em;
-    }
-  </style>
+  .content {
+    margin-left: 14em;
+  }
 
-  <body>
-    {%- include header.html -%}
-
-    <div class="container">
-      <div class="sidebar" id="toc"></div>
-
-      <main class="page-content" aria-label="Content">
-        <div class="wrapper">
-          {{ content }}
-        </div>
-      </main>
-    </div>
-
-    {%- include footer.html -%}
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          fetch('/outline.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.getElementById('toc').innerHTML = data;
-              });
-      });
-    </script>
-  </body>
-
-</html>
+  .sidebar p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2em;
+  }
+</style>
