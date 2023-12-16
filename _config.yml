@@ -25,6 +25,9 @@ url: "https://ai.posetmage.com/" # the base hostname & protocol for your site, e
 baseurl: "/Practicing" # the subpath of your site, e.g. /blog
 
 
+header_pages:
+  - Boards.md
+
 # Build settings
 remote_theme: jekyll/minima
 
