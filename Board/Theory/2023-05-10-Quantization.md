@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: board
 title:  "Quantization"
 date:   2023-05-10 10:00:00 +0800
 categories: [Theory]

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: board
 title:  "AI code comment"
 date:   2023-09-11 10:00:00 +0800
 categories: [Text]

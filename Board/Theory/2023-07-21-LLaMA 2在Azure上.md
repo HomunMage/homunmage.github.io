@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: board
 title:  "LLaMA 2在Azure上"
 date:   2023-07-21 10:00:00 +0800
 categories: [Theory]

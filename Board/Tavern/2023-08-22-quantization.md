@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: board
 title:  "quantization"
 date:   2023-08-22 10:00:00 +0800
 categories: [Tavern]

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: board
 title:  "ai in vscode"
 date:   2023-09-17 10:00:00 +0800
 categories: [Tavern]

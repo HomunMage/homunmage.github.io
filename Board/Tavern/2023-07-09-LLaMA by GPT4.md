@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: board
 title:  "LLaMA by GPT4"
 date:   2023-07-09 10:00:00 +0800
 categories: [Tavern]

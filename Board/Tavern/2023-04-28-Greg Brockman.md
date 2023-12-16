@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: board
 title:  "Greg Brockman"
 date:   2023-04-28 10:00:00 +0800
 categories: [Tavern]
