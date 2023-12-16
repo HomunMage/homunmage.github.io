@@ -23,7 +23,7 @@ layout: base
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    fetch('/Boards/outline.html')
+    fetch('/Board/outline.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('outline').innerHTML = data;
