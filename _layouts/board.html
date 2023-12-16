@@ -37,8 +37,6 @@ layout: base
     }</style>
 
 <body>
-  {% include header.html %}
-
   <div class="page-content">
     <div class="wrapper">
       <div class="sidebar" id="toc">
@@ -50,10 +48,26 @@ layout: base
     </div>
   </div>
 
+  <div class="container">
+    <div class="sidebar" id="toc"></div>
+    <div class="content">
+      <section id="main_content">
+        {{ content }}
+      </section>
+      {% include social.html %}
+    </div>
+  </div>
+
   {% include footer.html %}
 
   <script>
-    // Your custom JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/outline.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('toc').innerHTML = data;
+            });
+    });
   </script>
 </body>
 </html>
