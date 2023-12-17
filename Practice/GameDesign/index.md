@@ -2,11 +2,11 @@
 layout: practice
 ---
 
-# Novel
+# GameDesign
 
 ## Lists
 <ul>
-{% assign filter_pages = site.pages | where_exp: "page", "page.categories contains 'Novel'" %}
+{% assign filter_pages = site.pages | where_exp: "page", "page.categories contains 'GameDesign'" %}
 {% assign sorted_pages = filter_pages | sort: 'name' | reverse %}
 {% for page in sorted_pages %}
     <li>
