@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: board
 ---
 
 # 🎯練兵場

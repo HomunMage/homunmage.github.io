@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: board
 ---
 
 <h1> 🗿七大列強 </h1>
