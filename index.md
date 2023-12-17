@@ -1,14 +1,7 @@
 ---
-title: practicing AI
-
 layout: page
 ---
 
+<img src="https://posetmage.com/Images/AIMage/LOGO.png" Height="32" /> AI-Mage <img src="https://posetmage.com/Images/Icon/AIMage/LOGO.png" Height="32" />
 
-## [Copywriting](./Copywriting/)
-
-## [Pitch](./Pitch/)
-
-## [Novel](./Novel/)
-
-## [GameDesign](./GameDesign/)
+AI-Mage is specialization of LatticeMage

@@ -28,6 +28,7 @@ header_pages:
   - Boards.md
   - Practice.md
   - GPTs.md
+  - Contact
 
 # Build settings
 remote_theme: jekyll/minima
