@@ -9,25 +9,21 @@ layout: base
   }
 
   .sidebar {
-    position: absolute; /* Keeps the sidebar at the left edge */
+    position: fixed;
     width: 13em;
     padding: 1em;
     overflow: auto;
     height: 100vh;
-  }
-
-  .sidebar p {
-      margin: 0;
-      padding: 0;
-      line-height: 1.2em;
+    top: 0;
+    left: 0;
   }
 
   .page-content {
-    flex-grow: 1; /* Will take up the remaining space */
-    padding-left: 1em; /* Gives a little space from the sidebar */
-    overflow-wrap: break-word; /* Wraps the text */
-    max-width: calc(100% - 15em); /* The width of the sidebar plus its padding */
-    box-sizing: border-box; /* Ensures padding is included in the width */
+    margin-left: 14em; /* Space for sidebar */
+    padding: 1em;
+    overflow-wrap: break-word;
+    width: calc(100% - 14em); /* Adjusted width */
+    box-sizing: border-box;
   }
 </style>
 
