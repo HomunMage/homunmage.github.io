@@ -24,15 +24,10 @@ email: aimageguild@gmail.com
 url: "https://ai.posetmage.com/" # the base hostname & protocol for your site, e.g. http://example.com
 baseurl: "" # the subpath of your site, e.g. /blog
 
-# Include content from submodule
-include:
-  - /GPTs/*.md
-
-
 header_pages:
   - Boards.md
   - Practice.md
-  - GPT.md
+  - GPTs.md
 
 # Build settings
 remote_theme: jekyll/minima
