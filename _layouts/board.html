@@ -1,6 +1,33 @@
 ---
 layout: base
 ---
+<style>
+  .page-container {
+    display: flex;
+    width: 100%;
+  }
+
+  .sidebar {
+    position: absolute; /* Added for positioning the sidebar */
+    width: 13em;
+    padding: 1em;
+    overflow: auto;
+    height: 100vh;
+  }
+
+  .sidebar p {
+      margin: 0;
+      padding: 0;
+      line-height: 1.2em;
+  }
+
+  .page-content {
+    flex-grow: 1;
+    padding-left: 1em; /* Adjusted padding */
+    margin-left: 14em; /* Adjust this value to match the sidebar width + padding */
+  }
+</style>
+
 
 <div class="page-container">
   <aside class="sidebar" id="outline">
@@ -31,30 +58,4 @@ layout: base
   });
 </script>
 
-<style>
-  .page-container {
-    display: flex;
-    width: 100%;
-  }
 
-  .sidebar {
-    width: 13em;
-    padding: 1em;
-    overflow: auto;
-    height: 100vh;
-  }
-
-  .sidebar p {
-      margin: 0;
-      padding: 0;
-      line-height: 1.2em;
-    }
-
-  .page-content {
-    flex-grow: 1;
-    padding-left: 220px; /* Adjust this value to match the sidebar width + padding */
-    margin-left: 14em;
-  }
-
-
-</style>
