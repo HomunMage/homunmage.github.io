@@ -23,12 +23,14 @@ layout: base
   }
 
   .page-content {
-    position: absolute;
-    left: 15em; /* Gives a little space from the sidebar */
-    overflow-wrap: break-word; /* Wraps the text */
-    max-width: calc(100% - 15em); /* The width of the sidebar plus its padding */
-    box-sizing: border-box; /* Ensures padding is included in the width */
+  flex-grow: 1; /* Takes up remaining space */
+  overflow: auto; /* Scroll if content is too long */
   }
+
+  .post-content {
+    word-wrap: break-word; /* Ensures long words wrap */
+  }
+
 </style>  
 
 <div class="page-container">
