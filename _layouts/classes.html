@@ -2,27 +2,7 @@
 layout: board
 ---
 
-<style>
-  .page-container {
-    display: flex;
-    width: 100%;
-  }
-
-  .sidebar {
-    position: absolute;
-    width: 13em;
-    padding: 1em;
-    overflow: auto;
-    height: 100vh;
-  }
-
-  .page-content {
-    padding: 14em;
-    overflow-wrap: break-word;
-    width: calc(100% - 14em); /* Adjusted width */
-    box-sizing: border-box;
-  }
-</style>
+{% include board_css.html%}
 
 <section id="page-content">
   {{ content }}
