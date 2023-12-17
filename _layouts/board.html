@@ -9,26 +9,19 @@ layout: base
   }
 
   .sidebar {
-    position: absolute; /* Keeps the sidebar at the left edge */
-    width: 13em;
+    flex: 0 0 14em; /* Fixed width for the sidebar */
     padding: 1em;
     overflow: auto;
     height: 100vh;
   }
 
-  .sidebar p {
-      margin: 0;
-      padding: 0;
-      line-height: 1.2em;
-  }
-
   .page-content {
-  flex-grow: 1; /* Takes up remaining space */
-  overflow: auto; /* Scroll if content is too long */
+    flex-grow: 1; /* Consumes the rest of the space */
+    overflow: auto; /* Enables scrolling if content overflows */
   }
 
   .post-content {
-    word-wrap: break-word; /* Ensures long words wrap */
+    word-wrap: break-word; /* Wrap long words */
   }
 
 </style>  
