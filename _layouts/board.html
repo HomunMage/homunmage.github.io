@@ -1,6 +1,7 @@
 ---
 layout: base
 ---
+
 <style>
   .page-container {
     display: flex;
@@ -8,7 +9,7 @@ layout: base
   }
 
   .sidebar {
-    position: absolute; /* Added for positioning the sidebar */
+    position: absolute; /* Keeps the sidebar at the left edge */
     width: 13em;
     padding: 1em;
     overflow: auto;
@@ -22,13 +23,14 @@ layout: base
   }
 
   .page-content {
-    flex-grow: 1;
-    padding-left: 1em;
-    margin-left: 14em; /* Sidebar width + padding */
-    overflow-wrap: break-word; /* Ensure content wraps inside the container */
-    max-width: calc(100% - 14em); /* Adjust max width to account for sidebar */
+    flex-grow: 1; /* Will take up the remaining space */
+    padding-left: 1em; /* Gives a little space from the sidebar */
+    overflow-wrap: break-word; /* Wraps the text */
+    max-width: calc(100% - 15em); /* The width of the sidebar plus its padding */
+    box-sizing: border-box; /* Ensures padding is included in the width */
   }
 </style>
+
 
 
 <div class="page-container">
