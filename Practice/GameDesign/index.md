@@ -1,8 +1,9 @@
 ---
+title: GameDesign
+
 layout: practice
 ---
 
-# GameDesign
 
 ## Lists
 <ul>

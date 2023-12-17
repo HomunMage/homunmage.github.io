@@ -1,8 +1,8 @@
 ---
+title: 🌀傳送卷軸
+
 layout: board
 ---
-
-# 🌀傳送卷軸
 
 <head>
   <style>

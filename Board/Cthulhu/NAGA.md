@@ -1,8 +1,9 @@
 ---
-layout: default
+title: NAGA
+
+layout: page
 ---
 
-# NAGA
 
 <head>
     <title>My Chart</title>

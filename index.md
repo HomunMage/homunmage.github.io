@@ -1,8 +1,9 @@
 ---
+title: practicing AI
+
 layout: page
 ---
 
-# practicing AI
 
 ## [Copywriting](./Copywriting/)
 

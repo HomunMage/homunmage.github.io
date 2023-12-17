@@ -1,8 +1,10 @@
 ---
+title: Novel
+
 layout: practice
 ---
 
-# Novel
+
 
 ## Lists
 <ul>

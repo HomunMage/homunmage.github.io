@@ -1,8 +1,9 @@
 ---
+title: Pitch
+
 layout: practice
 ---
 
-# Pitch
 
 ## Lists
 <ul>

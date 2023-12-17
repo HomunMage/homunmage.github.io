@@ -1,8 +1,10 @@
 ---
+title: Copywriting
+
 layout: practice
 ---
 
-# Copywriting
+
 
 ## Lists
 <ul>
