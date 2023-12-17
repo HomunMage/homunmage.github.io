@@ -26,7 +26,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 
 # Include content from submodule
 include:
-  - /GPTs/*
+  - /GPTs/*.md
+
 
 header_pages:
   - Boards.md
