@@ -27,6 +27,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 
 header_pages:
   - Boards.md
+  - Practice.md
+  - GPT.md
 
 # Build settings
 remote_theme: jekyll/minima

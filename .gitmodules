@@ -1,0 +1,3 @@
+[submodule "GPTs"]
+	path = GPTs
+	url = git@AI:aimageguild/GPTs.git
