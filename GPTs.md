@@ -1,9 +1,8 @@
 ---
 layout: page
+title: GPTs
+
 ---
-
-# GPTs
-
 
 <style>
 img {
