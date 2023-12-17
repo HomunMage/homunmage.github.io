@@ -24,6 +24,9 @@ email: aimageguild@gmail.com
 url: "https://ai.posetmage.com/" # the base hostname & protocol for your site, e.g. http://example.com
 baseurl: "" # the subpath of your site, e.g. /blog
 
+# Include content from submodule
+include:
+  - /GPTs/*
 
 header_pages:
   - Boards.md
