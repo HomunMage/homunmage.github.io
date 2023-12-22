@@ -33,9 +33,6 @@ header_pages:
 # Build settings
 remote_theme: jekyll/minima
 
-favicon: index.png
-
-
 minima:
   skin: dark
 
