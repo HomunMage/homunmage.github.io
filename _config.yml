@@ -17,6 +17,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
+te.myvariable }}.
 
 title: AI-Mage
 email: aimageguild@gmail.com
@@ -25,9 +26,13 @@ url: "https://ai.posetmage.com/" # the base hostname & protocol for your site, e
 baseurl: "" # the subpath of your site, e.g. /blog
 
 
-site_favicon: favicon.ico
-includes_dir: _shared/_includes
-layouts_dir: _shared/_layouts
+social:
+  - platform: envelope
+    url: mailto:aimageguild@gamil.com
+  - platform: youtube
+    url: https://youtube.com/@aimageguild
+  - platform: twitter
+    url: https://twitter.com/aimageguild
 
 
 # Build settings
@@ -45,6 +50,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-titles-from-headings
   - jekyll-seo-tag
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
