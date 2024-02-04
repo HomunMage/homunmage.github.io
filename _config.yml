@@ -20,9 +20,9 @@
 
 title: AI-Mage
 email: aimageguild@gmail.com
+url: https://ai.posetmage.com/ # the base hostname & protocol for your site, e.g. http://example.com
+slogan: Might and Magic
 
-url: "https://ai.posetmage.com/" # the base hostname & protocol for your site, e.g. http://example.com
-baseurl: "" # the subpath of your site, e.g. /blog
 
 
 social:
