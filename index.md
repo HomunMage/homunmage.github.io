@@ -11,5 +11,6 @@ AI-Mage is specialization of LatticeMage
 
 
 ## Other Brands
-* <img src="https://posetmage.com/Images/Icon/PosetMage_t.png" Height="32" /> [PosetMage](https://posetmage.com)
-* <img src="https://posetmage.com/Images/Icon/LatticeMage_t.png" Height="32" /> [LatticeMage](https://lattice.posetmage.com)
+* <a href="https://posetmage.com"><img src="https://posetmage.com/Images/Icon/LatticeMage_t.png" Height="32" /> PosetMage</a>
+* <a href="https://lattice.posetmage.com"><img src="https://posetmage.com/Images/Icon/LatticeMage_t.png" Height="32" /> LatticeMage</a>
+* <a href="https://alchemymage.posetmage.com"><img src="https://posetmage.com/Images/Icon/AlchemyMage_b.png" Height="32" /> 鍊金Mage</a>
