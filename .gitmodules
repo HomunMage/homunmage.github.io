@@ -10,5 +10,5 @@
 
 [submodule "_layouts"]
 	path = _layouts
-	url = ../ai_layouts.git
+	url = ../homun_layouts.git
 	branch = main
