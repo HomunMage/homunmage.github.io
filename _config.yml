@@ -18,21 +18,20 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: AI-Mage
-email: aimageguild@gmail.com
-url: https://ai.posetmage.com/ # the base hostname & protocol for your site, e.g. http://example.com
-slogan: Might and Magic
+title: HomunMage
+email: homun@posetmage.com
+url: https://homun.posetmage.com/ # the base hostname & protocol for your site, e.g. http://example.com
 
-repository: aimageguild/aimageguild.github.io
+repository: homunmage/homunmage.github.io
 
 
 social:
   - platform: envelope
-    url: mailto:aimageguild@gamil.com
+    url: mailto:homun@posetmage.com
   - platform: youtube
-    url: https://youtube.com/@aimageguild
+    url: https://youtube.com/@homunmage
   - platform: twitter
-    url: https://twitter.com/aimageguild
+    url: https://twitter.com/homunmage
 
 
 # Build settings

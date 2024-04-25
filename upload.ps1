@@ -10,9 +10,9 @@ cd assets
 ./upload.bat
 cd ../
 
-git config --local user.name "AIMageGuild"
-git config --local user.email "AIMageGuild@users.noreply.github.com"
-git remote set-url origin git@AI:aimageguild/aimageguild.github.io.git
+git config --local user.name "HomunMage"
+git config --local user.email "homun@posetmage.com"
+git remote set-url origin git@AI:homunmage/homunmage.github.io.git
 
 git submodule update --recursive --remote
 
