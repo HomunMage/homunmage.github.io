@@ -24,16 +24,6 @@ url: https://homun.posetmage.com/ # the base hostname & protocol for your site, 
 
 repository: homunmage/homunmage.github.io
 
-
-social:
-  - platform: envelope
-    url: mailto:homun@posetmage.com
-  - platform: youtube
-    url: https://youtube.com/@homunmage
-  - platform: twitter
-    url: https://twitter.com/homunmage
-
-
 # Build settings
 remote_theme: jekyll/minima
 
