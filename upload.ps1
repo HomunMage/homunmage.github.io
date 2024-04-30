@@ -3,7 +3,7 @@ cd _includes
 cd ../
 
 cd _layouts
-./upload.bat
+./upload.ps1
 cd ../
 
 cd assets
