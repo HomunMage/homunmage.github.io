@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: base
 title: Contact
 permalink: /Contact/
 redirect_from:

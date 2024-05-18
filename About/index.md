@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: base
 ---
 
 HomunMage is a sub-brand of PosetMage for AIGC
