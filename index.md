@@ -1,15 +1,13 @@
 ---
+title: Homun Mage
 layout: page
 ---
 
-HomunMage is a sub-brand of PosetMage for AIGC
+## CrewAI-GUI
 
-* Media
-    * [Twitter](https://twitter.com/HomunMage)
-    * [YT](https://www.youtube.com/@HomunMage)
-    * Share and discuss various AI topics, including music, art, text software, go chess, etc.
+![](https://raw.githubusercontent.com/HomunMage/CrewAI-GUI/main/frontend.webp)
 
+[github repo](https://github.com/HomunMage/CrewAI-GUI)
 
-<div id="subbrands"></div>
+## [GPTs](/Agents)
 
-<script src="{{ '/assets/js/Sub_Brands.js' | relative_url }}"></script>
