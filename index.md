@@ -1,6 +1,6 @@
 ---
 title: Homun Mage
-layout: page
+layout: base
 ---
 
 ## CrewAI-GUI
