@@ -3,6 +3,17 @@ title: Homun Mage
 layout: base
 ---
 
+
+## ★ LangGraph-GUI ★ 
+
+![](https://raw.githubusercontent.com/LangGraph-GUI/LangGraph-GUI/main/cover.webp)
+
+[github repo](https://github.com/LangGraph-GUI/LangGraph-GUI)
+
+## LangGraph for dummy
+
+[learning langgraph resource](https://github.com/LangGraph-GUI/LangGraph-learn)
+
 ## ★ CrewAI-GUI ★ 
 
 ![](https://raw.githubusercontent.com/HomunMage/CrewAI-GUI/main/frontend.webp)
