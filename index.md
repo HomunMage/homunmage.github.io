@@ -6,9 +6,9 @@ layout: base
 
 ## ★ LangGraph-GUI ★ 
 
-![](https://raw.githubusercontent.com/LangGraph-GUI/LangGraph-GUI/main/cover.webp)
+![](https://langgraph-gui.github.io/cover.webp)
 
-[github repo](https://github.com/LangGraph-GUI/LangGraph-GUI)
+[LangGraph-GUI github repo](https://github.com/LangGraph-GUI/LangGraph-GUI)
 
 ## LangGraph for dummy
 
