@@ -23,8 +23,6 @@ layout: base
 
 [github repo](https://github.com/HomunMage/CrewAI-GUI)
 
-
-
 ## ★ [Agent Prompts](/Agents) ★
 See my prompts for GPTs
 

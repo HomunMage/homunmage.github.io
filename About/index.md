@@ -2,12 +2,13 @@
 layout: base
 ---
 
-HomunMage is a sub-brand of PosetMage for AIGC
+HomunMage is a sub-brand of PosetMage for AIGC and technology feilds
 
 * Media
-    * [Twitter](https://twitter.com/HomunMage)
-    * [YT](https://www.youtube.com/@HomunMage)
-    * Share and discuss various AI topics, including music, art, text software, go chess, etc.
+  * [GitHub](https://github.com/HomunMage)
+  * [Twitter](https://twitter.com/HomunMage)
+  * [YT](https://www.youtube.com/@HomunMage)
+  * Share and discuss various AI topics, including music, art, text software, go chess, etc.
 
 
 <div id="subbrands"></div>
