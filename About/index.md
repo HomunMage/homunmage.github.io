@@ -13,4 +13,4 @@ HomunMage is a sub-brand of PosetMage for AIGC and technology feilds
 
 <div id="subbrands"></div>
 
-<script src="{{ '/assets/js/Sub_Brands.js' | relative_url }}"></script>
+<script src="https://posetmage.com/cdn/js/Sub_Brands.js"></script>
