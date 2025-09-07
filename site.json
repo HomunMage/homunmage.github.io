@@ -1,0 +1,13 @@
+{
+  "title": "HomunMage",
+  "email": "homunmage@gmail.com",
+  "url": "https://homun.posetmage.com",
+  "icon": "https://posetmage.com/Images/Icon/HomunMage.svg",
+  "slogan": "正解はない、あるのは妥協だけだ。",
+  "navigation": [
+    { "title": "About", "url": "/About/" },
+  { "title": "Tools", "url": "/Tools/" },
+  { "title": "Blogs", "url": "/Blogs/" },
+  { "title": "Contact", "url": "/Contact/" }
+  ]
+}
