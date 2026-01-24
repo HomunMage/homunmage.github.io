@@ -7,7 +7,7 @@
   "navigation": [
     { "title": "About", "url": "/About/" },
   { "title": "Tools", "url": "/Tools/" },
-  { "title": "Blogs", "url": "/Blogs/" },
+  { "title": "Blog", "url": "/Blog/" },
   { "title": "Contact", "url": "/Contact/" }
   ]
 }
