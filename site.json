@@ -8,7 +8,7 @@
     { "title": "About", "url": "/About/" },
   { "title": "Tools", "url": "/Tools/" },
   { "title": "Blog", "url": "/Blog/" },
-  { "title": "Slides", "url": "/Content/" },
+  { "title": "Slides", "url": "/Slides/" },
   { "title": "Contact", "url": "/Contact/" }
   ]
 }

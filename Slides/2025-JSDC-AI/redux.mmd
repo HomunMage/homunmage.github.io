@@ -1,0 +1,27 @@
+%% Code for flowchart below
+graph LR
+    redux[redux Nodes]
+    react[ReactFlow]
+    edges[EdgesState]
+    nodes[NodeState]
+    edge((edge))
+
+    react --change--> edge
+    
+    edge --modify--> edges
+    edge --modify--> nodes
+
+    nodes --update--> redux
+    redux --update--> edges
+
+    react --change--> nodes
+
+
+    graphs[graphs.json]
+    backend[Backend]
+
+    redux --store--> graphs
+    redux --load--> nodes
+    graphs --> backend
+
+  graphs --load--> redux

@@ -22,7 +22,23 @@ title: HomunMage
 email: homun@posetmage.com
 url: https://homun.posetmage.com/ # the base hostname & protocol for your site, e.g. http://example.com
 
-repository: homunmage/homunmage.github.io
+defaults:
+  -
+    scope:
+      path: "Slides"
+    values:
+      layout: "page/note/slides"
+
+exclude:
+  - "*.mm.md"
+
+kramdown:
+  parse_block_html: true
+  
+collections:
+  directories:
+    output: true
+
 
 # Build settings
 remote_theme: jekyll/minima
