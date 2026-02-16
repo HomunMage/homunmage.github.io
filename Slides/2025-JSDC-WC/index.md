@@ -2,16 +2,11 @@
 title: Let's Play with Web Components
 ---
 
-<div class="slide">
-
 ## Let's Play Web Components, using Lit3 or Svelte
 
 <img src="https://avatars.githubusercontent.com/u/1905708" style="background-color: white; height: 300px;">
 
 
-</div>
-
-<div class="slide">
 
 ## What is W3C
 
@@ -30,18 +25,12 @@ title: Let's Play with Web Components
   * Shadow DOM allows you to create a separate, encapsulated styling scope for your web component.
 
 
-</div>
-
-<div class="slide">
 
 ## Why choose Lit
 
   <div class="embed_youtube" yt-title="在你不知道的角落，前端的未来正在回归本源" yt-url="J_xIxliB0Jo" yt-width="700">Loading content...
   </div>
 
-</div>
-
-<div class="slide">
 
 ## Lit Pros and Cons
 
@@ -59,10 +48,7 @@ title: Let's Play with Web Components
   * higher learning curve
   * cannot tailwind
 
-</div>
 
-
-<div class="slide">
 
 ## Why choose Svelte
 
@@ -72,9 +58,6 @@ title: Let's Play with Web Components
   * very easy to set github-actions
 * align with svelte eco
 
-</div>
-
-<div class="slide">
 
 ## My Examples
 
@@ -86,14 +69,10 @@ my svelte ver wc: [https://github.com/PosetMage/wc](https://github.com/PosetMage
 
 my Jekyll blog exmaple: [https://homun.posetmage.com/Tools/OS/Container/MediaTool/](https://homun.posetmage.com/Tools/OS/Container/MediaTool/)
 
-</div>
-
-<div class="slide">
 
 ## END
 
 Thank You
 
-</div>
 
 <script src="https://posetmage.com/cdn/js/EmbedYoutubeVideo.js">

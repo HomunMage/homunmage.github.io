@@ -6,16 +6,11 @@ title: Use SvelteFlow to Create AI Workflow Visualized Node-Edge Graph GUI Edito
 <script src="https://posetmage.com/cdn/js/EmbedYoutubeVideo.js"></script>
 
 
-<div class="slide">
-
 ## Use SvelteFlow to Create AI Workflow Visualized Node-Edge Graph GUI Editor
 
 <img src="https://langgraph-gui.github.io/cover.webp" width="700">
 
-</div>
 
-
-<div class="slide">
 
 ## What I want
 
@@ -30,9 +25,6 @@ and self-host, more flexibity, use langgraph
 * n8n
   * <img src="https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-screenshot-readme.png" width="600">
 
-</div>
-
-<div class="slide">
 
 ## The Core Problem: Why Build Another One?
 
@@ -43,9 +35,6 @@ Although existing platforms are powerful, they commonly suffer from several pain
 * **Opaque Logic**: Lack of full visibility into the internal workings of the agent, making debugging challenging.
 * **Cost**: Large-scale usage in production environments can become prohibitively expensive.
 
-</div>
-
-<div class="slide">
 
 ## Why Is Visual Programming Needed?
 
@@ -54,9 +43,6 @@ Although existing platforms are powerful, they commonly suffer from several pain
 * Facilitate Team Collaboration
 * Reduce Configuration Errors
 
-</div>
-
-<div class="slide">
 
 ## Time Flies......
 
@@ -66,10 +52,7 @@ OpenAI AgentKit
 
 
 
-</div>
 
-
-<div class="slide">
 
 ## Similar LLM libs
 
@@ -86,18 +69,12 @@ OpenAI AgentKit
 
 **all of these not have official GUI, we need create by ourself.**
 
-</div>
-
-<div class="slide">
 
 ## core design
 
 use Nodes as SSOT to represent Edges
 <div class="inject-mermaid" file="./graph.mmd" style="background-color: white;"></div>
 
-</div>
-
-<div class="slide">
 
 ## Evolution: From PyQt to Web-Based Solution
 
@@ -111,10 +88,7 @@ CrewAI-GUI-pyQt
 - Harder to collaborate
 - Less familiar developer ecosystem
 
-</div>
 
-
-<div class="slide">
 
 ## Technology Stack
 
@@ -127,9 +101,6 @@ CrewAI-GUI-pyQt
 * Infrastructure
   * Kubernetes <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/1055px-Kubernetes_logo_without_workmark.svg.png" height="24">
   * Docker Compose <img src="https://i0.wp.com/codeblog.dotsandbrackets.com/wp-content/uploads/2016/10/compose-logo.jpg" height="32">
-</div>
-
-<div class="slide">
 
 ## backend API
 
@@ -148,27 +119,18 @@ post /upload/{username}
 post /run/{username}
 ```
 
-</div>
-
-<div class="slide">
 
 ## LangGraph.js
 
 <img src="langgraph-js.webp" width="800">
 
-</div>
 
-
-<div class="slide">
 
 ## Graph Data Strcture Design
 
 <img src="./node_in_ts.webp" width="320"><img src="./node_in_json.webp" width="300">
 
-</div>
 
-
-<div class="slide">
 
 ## Why xyflow
 
@@ -176,9 +138,6 @@ xyflow is mature js graph library (svelteflow, reactflow)
 
 <img src="https://user-images.githubusercontent.com/2857535/279644026-a01c231c-6c6e-4b41-96e0-a85c75c9acee.svg#gh-dark-mode-only" width="500">
 
-</div>
-
-<div class="slide">
 
 ## Custom Nodes
 
@@ -187,9 +146,6 @@ no code
 <img src="https://langgraph-gui.github.io/Frontend/images/node_step.webp" width="250">
 <img src="https://langgraph-gui.github.io/Frontend/images/node_condition.webp" width="350">
 
-</div>
-
-<div class="slide">
 
 ## Custom Nodes
 
@@ -197,10 +153,7 @@ low code
 
 <img src="https://langgraph-gui.github.io/Frontend/images/node_tool.webp">
 
-</div>
 
-
-<div class="slide">
 
 ## Why ReactFlow
 
@@ -210,10 +163,7 @@ low code
 * Graph GUI with node edge design
 * flexibity enough for make it as editor
 
-</div>
 
-
-<div class="slide">
 
 ## Benefit from ReactFlow
 
@@ -221,9 +171,6 @@ custom edge, custom nodes
 
 <img src="./reactflow-doc-nodes.webp" width="500">
 
-</div>
-
-<div class="slide">
 
 ## The Jourery of ReactFlow
 
@@ -240,9 +187,6 @@ LangGraph-GUI 1.0 using reactflow
 
   <div class="inject-mermaid" file="./redux.mmd" style="background-color: white;"></div>
 
-</div>
-
-<div class="slide">
 
 ## learn lessons from ReactFlow
 
@@ -260,9 +204,6 @@ LangGraph-GUI 1.0 using reactflow
   * As projects grow, plain JavaScript becomes harder to manage. TypeScript helps us scale.
   * unclear data structures, harder to refactor
 
-</div>
-
-<div class="slide">
 
 ## bothered by TS
 
@@ -287,10 +228,7 @@ export type Json =
 
 ```
 
-</div>
 
-
-<div class="slide">
 
 ## Why SvelteFlow
 
@@ -302,10 +240,7 @@ export type Json =
 * SvelteFlow 1.0 highly affinity svelt 5 rune, signals
 * fewer and more beautiful lines
 
-</div>
 
-
-<div class="slide">
 
 ## Signals
 
@@ -313,9 +248,6 @@ export type Json =
 
 <img src="signals-TC39.webp" width="800">
 
-</div>
-
-<div class="slide">
 
 ## Signals
 
@@ -336,9 +268,6 @@ export type Json =
 | **Svelte 5**          | `$state` / `writable` store | `$derived` / `derived` store | `$effect` / `$:` declaration    |
 
 
-</div>
-
-<div class="slide">
 
 ## llms.txt
 
@@ -352,9 +281,6 @@ export type Json =
 
 <img src="./llms_txt.webp">
 
-</div>
-
-<div class="slide">
 
 ## SvelteFlow 1.0 release
 
@@ -365,9 +291,6 @@ fully support rune
 <img src="svelteflow-doc-flow.webp" width="600">
 
 
-</div>
-
-<div class="slide">
 
 ## Svelte is Elegant
 
@@ -385,9 +308,6 @@ bind:nodes={$currentNodes}
 edges={$currentEdges} 
 ```
 
-</div>
-
-<div class="slide">
 
 ## Svelte is Elegant (cont.)
 
@@ -395,35 +315,23 @@ define your own signal object:
 
 <img src="./svelte-subcribe.webp">
 
-</div>
 
-
-<div class="slide">
 
 ## Simple Demo
 
 <img src="../COSCUP/langgraph-gui-demo.gif">
 
-</div>
-
-<div class="slide">
 
 ## Extend Demo
 
 <img src="../COSCUP/extend-demo.gif">
 
-</div>
-
-<div class="slide">
 
 ## Extend Demo
 
   <div class="embed_youtube" yt-title="extend demo" yt-url="sPl3J3ads0s" yt-width="700">Loading content...
   </div>
 
-</div>
-
-<div class="slide">
 
 
 ## END
@@ -438,5 +346,4 @@ define your own signal object:
   * https://pbs.twimg.com/media/GP5rEiZaEAAUqWu?format=jpg&name=4096x4096
   * https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-screenshot-readme.png
 
-</div>
 

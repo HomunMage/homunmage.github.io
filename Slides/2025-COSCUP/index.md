@@ -2,8 +2,6 @@
 title: Selfhosted Visualizing AI Workflows with LangGraph-GUI & CrewAI-GUI
 ---
 
-<div class="slide">
-
 ## Self-hosted AI Workflow Visualization with LangGraph-GUI & CrewAI-GUI
 
 
@@ -11,9 +9,6 @@ title: Selfhosted Visualizing AI Workflows with LangGraph-GUI & CrewAI-GUI
 
 slide link: https://homun.posetmage.com/Content/Slides/2025/COSCUP/
 
-</div>
-
-<div class="slide">
 
 ## LangGraph-GUI Demo
 
@@ -22,10 +17,7 @@ slide link: https://homun.posetmage.com/Content/Slides/2025/COSCUP/
 * visulization, low code, easy to prompt
 * simple for dev tools
 
-</div>
 
-
-<div class="slide">
 
 ## Motivation & Goals
 
@@ -48,13 +40,10 @@ other tool usually limited shape, you cannot drag some node to any node you want
     * https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-screenshot-readme.png
 
 
-</div>
 
 
 
 
-
-<div class="slide">
 
 ## First attempts - CrewAI-Qt
 
@@ -72,9 +61,6 @@ Build CrewAI-GUI with pyside6
 
 <img src="https://raw.githubusercontent.com/LangGraph-GUI/CrewAI-GUI-Qt/refs/heads/main/frontend.webp" style="height: 400px;">
 
-</div>
-
-<div class="slide">
 
 ## Why Not CrewAI?
 
@@ -84,11 +70,8 @@ Build CrewAI-GUI with pyside6
   * Frequent updates may breaks existing code
   * <img src="crewai-fail.webp" width="600">
 
-</div>
 
 
-
-<div class="slide">
 
 ## Abadon PyQt
 
@@ -104,9 +87,6 @@ Build CrewAI-GUI with pyside6
 -> <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Svelte_Logo.svg" width="50"> 
 
 
-</div>
-
-<div class="slide">
 
 ## Why Not LangChain?
 
@@ -119,10 +99,7 @@ Both langchain and  crewai are Fragility
 
 [why we no longer use LangChain for building our AI agents](https://octomind.dev/blog/why-we-no-longer-use-langchain-for-building-our-ai-agents)
 
-</div>
 
-
-<div class="slide">
 
 ## Why Choose LangGraph
 
@@ -144,10 +121,7 @@ moreover we can do graph in graph like small agent but just use origin keywords
 
 
 
-</div>
 
-
-<div class="slide">
 
 ## Design of LangGraph-GUI
 
@@ -161,19 +135,13 @@ moreover we can do graph in graph like small agent but just use origin keywords
 <img src="subgraph.webp" width="300">
 
 
-</div>
-
-<div class="slide">
 
 ## Extend Ability
 
 <img src="./extend-demo.gif">
 
-</div>
 
 
-
-<div class="slide">
 
 ## python backend
 
@@ -185,10 +153,7 @@ moreover we can do graph in graph like small agent but just use origin keywords
 
 <img src="https://cdn.prod.website-files.com/63d926b37ec0d886c2d5d538/66bb668df8a571178f9bbe61_66964499d8592c7ca862b5ff_Flask-vs-FastAPI.png" width="400"><br/>image source: https://www.imaginarycloud.com/blog/flask-vs-fastapi
 
-</div>
 
-
-<div class="slide">
 
 ## DevOps
 
@@ -200,10 +165,7 @@ moreover we can do graph in graph like small agent but just use origin keywords
 
 
 
-</div>
 
-
-<div class="slide">
 
 ## Thank You!
 
