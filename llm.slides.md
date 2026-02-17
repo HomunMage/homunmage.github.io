@@ -59,12 +59,33 @@ content here
 - Add comments `//` to show output when helpful
 - No TypeScript unless the talk is specifically about TypeScript
 
+## mermaid graph
+use pattern like 
+<!-- prettier-ignore -->
+<mermaid-renderer>
+graph LR
+    ssot[SSOT Nodes]
+
+    A[Modify Nodes]
+    B[Modify Edges]
+    
+    A --modify--> ssot
+    B --update--> ssot
+    ssot --signals--> edges
+
+    backend[Backend]
+
+    ssot --"run graphs.json"--> backend
+
+    outputs(("`LLM
+      Outputs`"))
+    backend --> outputs
+</mermaid-renderer>
+
 ## Embedded Components
 
 - YouTube: `<div class="embed_youtube" yt-title="title" yt-url="VIDEO_ID" yt-width="700">Loading content...</div>`
   - Requires: `<script src="https://posetmage.com/cdn/js/EmbedYoutubeVideo.js"></script>`
-- Mermaid: `<div class="inject-mermaid" file="./diagram.mmd" style="background-color: white;"></div>`
-  - Requires: `<script src="https://posetmage.com/cdn/js/jekyll/injectMermaid.js"></script>`
 - Images: `<img src="./image.webp" width="600">`
 
 ## Slide Flow

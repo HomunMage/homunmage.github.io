@@ -73,7 +73,22 @@ OpenAI AgentKit
 ## core design
 
 use Nodes as SSOT to represent Edges
-<div class="inject-mermaid" file="./graph.mmd" style="background-color: white;"></div>
+<!-- prettier-ignore -->
+<mermaid-renderer>
+flowchart LR
+    A((Step1))
+    B((Step2))
+    C((Step3))
+    D((Step4))
+    E((Step5))
+    F((Step6))
+    A --next--> B
+    B --next--> C
+    B --next--> D
+    D --next--> E
+    E --next--> F
+    C --next--> F
+</mermaid-renderer>
 
 
 ## Evolution: From PyQt to Web-Based Solution
@@ -185,7 +200,35 @@ LangGraph-GUI 1.0 using reactflow
 
 <img src="./reactflow.webp">
 
-  <div class="inject-mermaid" file="./redux.mmd" style="background-color: white;"></div>
+<!-- prettier-ignore -->
+<mermaid-renderer>
+graph LR
+    redux[redux Nodes]
+    react[ReactFlow]
+    edges[EdgesState]
+    nodes[NodeState]
+    edge((edge))
+
+    react --change--> edge
+    
+    edge --modify--> edges
+    edge --modify--> nodes
+
+    nodes --update--> redux
+    redux --update--> edges
+
+    react --change--> nodes
+
+
+    graphs[graphs.json]
+    backend[Backend]
+
+    redux --store--> graphs
+    redux --load--> nodes
+    graphs --> backend
+
+  graphs --load--> redux
+</mermaid-renderer>
 
 
 ## learn lessons from ReactFlow
@@ -297,7 +340,30 @@ fully support rune
 [sample code](https://github.com/LangGraph-GUI/LangGraph-GUI-Svelte/blob/b56130696bc4e4202f3a4ffa013ef1a8d73aee35/src/routes/graph/flow/graphs.store.svelte.ts)
 
 signal chain: **Node**(SSOT) --> **Edge** --> **SvelteFlow**
-<div class="inject-mermaid" file="./svelte.mmd" style="background-color: white;"></div>
+
+
+
+<!-- prettier-ignore -->
+<mermaid-renderer>
+graph LR
+    ssot[SSOT Nodes]
+
+    A[Modify Nodes]
+    B[Modify Edges]
+    
+    A --modify--> ssot
+    B --update--> ssot
+    ssot --signals--> edges
+
+    backend[Backend]
+
+    ssot --"run graphs.json"--> backend
+
+    outputs(("`LLM
+      Outputs`"))
+    backend --> outputs
+</mermaid-renderer>
+
 
 <img src="./currentEdges.webp">
 

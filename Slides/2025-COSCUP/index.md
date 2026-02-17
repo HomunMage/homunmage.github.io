@@ -17,8 +17,6 @@ slide link: https://homun.posetmage.com/Content/Slides/2025/COSCUP/
 * visulization, low code, easy to prompt
 * simple for dev tools
 
-
-
 ## Motivation & Goals
 
 1. **Local GPU Support** (e.g., Ollama)
