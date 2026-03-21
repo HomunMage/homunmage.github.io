@@ -12,11 +12,22 @@ Because every language has something I hate.
 demo:
 https://github.com/homun-lang/homun/releases
 
+
+## Why 2026 Is the Right Time
+
+Programming language syntax has been fully explored — no truly new paradigms left.
+
+What remains is **engineering combination**: picking the best ideas and assembling them.
+
+Before writing a single line of code, spent months discussing design with AI — iterating through trade-offs, edge cases, and syntax choices.
+
+In 2026, designing a language is no longer about invention. It's about **curation**.
+
 ## What's Wrong with Languages
 
-* C++ hooks LLVM to a frontend — stupid. Claims to be the best compiler language, but actually the ML family (OCaml, Haskell) is better for compilers
-* C++ has huge breaking changes every version — e.g. `constexpr` scope differs across C++11/14/17/20, not properly defined upfront
-* Python syntax is nice, but lambda is single-line only — stupid. Python comprehension is actually bad practice
+* C++ hooks LLVM to a frontend — stupid. ML family (OCaml, Haskell) is better for compilers
+* C++ has huge breaking changes every version — `constexpr` scope differs across C++11/14/17/20
+* Python syntax is nice, but lambda is single-line only — stupid
 * Most languages use `.chaining()` not pipe — ugly in practice
 * Rust lambda `|x| x*2` — ugly
 * `=` vs `==` hell
@@ -27,24 +38,75 @@ But making a language from scratch is too hard.
 
 So start with a simpler example first.
 
+## What Is a Compiler?
+
+
+```
+Source Code (text)
+       │
+       ▼
+   Tokenizer      "if" "(" "x" ">" "0" ")"  →  tokens
+       │
+       ▼
+   Parser          builds AST (Abstract Syntax Tree)
+       │
+       ▼
+   AST             tree structure of the program
+       │
+       ▼
+   IR              Intermediate Representation
+       │
+       ▼
+   Backend         machine code / another language
+```
+
+## Tokenizer
+
+Break source text into tokens:
+
+```
+"if (x > 0)"  →  [IF, LPAREN, IDENT("x"), GT, INT(0), RPAREN]
+```
+
+* Just string splitting — find keywords, symbols, literals
+* No understanding of structure yet
+
+## Parser → AST
+
+Tokens → tree structure (Abstract Syntax Tree):
+
+```
+       IfStmt
+      /      \
+  Condition   Body
+    /  |  \
+   x   >   0
+```
+
+* Recursive descent — most common approach
+* Each grammar rule = one function
+* Tree captures the **meaning**, not the text
+
+## AST → IR → Output
+
+* **AST** = what the programmer wrote (structured)
+* **IR** = intermediate form, easier to transform
+* **Output** = target language or machine code
+
+For Homun: AST → Rust source code (no IR needed, 1-to-1 transpile)
+
+For mermaid-ascii: AST → Layout IR → ASCII art
+
 ## Mermaid-ASCII
 
 Problem with current Mermaid: change one tiny thing, the entire layout shifts drastically.
 
-Referenced existing repos:
+Referenced existing repos: mermaid-ascii (Go), ascii-mermaid (TypeScript)
 
-* mermaid-ascii (Go)
-* ascii-mermaid (TypeScript)
+Wanted to try Rust — decided to write a compiler in Rust.
 
-Also wanted to try Rust — major companies have been investing heavily in it the past two years.
+But Rust syntax is too complex. So first version written in Python, then ported to Rust.
 
-Decided to write a compiler in Rust.
-
-## But Rust Is Too Complex
-
-Rust syntax is still too complex.
-
-So the first version was written in Python.
 
 ## Compiler Pipeline
 
@@ -85,32 +147,9 @@ So the first version was written in Python.
             └─────────┘ └─────────┘
 ```
 
-## Layout IR
-
-Layout IR was designed after writing several versions — realized this design is better.
-
-Can 1-to-1 output to ASCII or SVG.
-
-## Python → Rust
-
-```
-Python (src/mermaid_ascii/)     Rust (src/rust/)
-──────────────────────────      ─────────────────
-parsers/flowchart.py            parsers/flowchart.rs
-layout/sugiyama.py              layout/sugiyama.rs
-layout/pathfinder.py            layout/pathfinder.rs
-renderers/ascii.py              renderers/ascii.rs
-api.py                          lib.rs
-(no CLI)                        main.rs + wasm.rs
-```
-
-(Then plan to rewrite in my own language — Homun)
-
-## Results
-
 <img src="./mermaid-arch.webp" style="max-width:90%; height:auto;">
 
-## Results (cont.)
+## Mermaid-ASCII Results (cont.)
 
 <img src="./mermaid-td.webp" style="max-width:90%; height:auto;">
 
@@ -120,11 +159,19 @@ OK, mermaid-ascii works. Time for the real dream: **my own language**.
 
 But I had no idea how painful this would be.
 
-## Stuck for Months: How Should Code Look?
+## Stuck for Months: Lambda Syntax Evolution
 
-Spent a very long time agonizing over syntax. Tried many approaches, none felt right.
+Spent months agonizing over syntax. Tried 
 
-The core question: how do you call methods on data?
+```
+v0.1   lambda()              // too verbose
+v0.3   () -> Type {}          // ok but messy
+v0.6   \() -> Type {}         // Haskell-ish, weird
+v0.7   || -> Type {}          // Rust-ish, ugly
+v0.8   |params| -> Type {}    // still ugly
+v0.13  (params) -> { body }   // ← finally! clean.
+```
+
 
 ```
 // ts-like — .chaining()
@@ -141,27 +188,34 @@ res = (1..=9)
     .unwrap();
 ```
 
-Both ugly. But what's the alternative?
+Every version felt wrong until `| (params) -> { body }`.
 
 ## The `.member` vs `.method` Nightmare
 
-Iterated over and over, trying to reconcile:
+The deeper problem: how do you call methods on data?
 
-* `player.hp` — this is field access
-* `player.attack()` — this is a method call
-* `list.filter(...)` — is this a method? a field that holds a function?
+* `player.hp` — field access
+* `player.attack()` — method call
+* `list.filter(...)` — method? field holding a function?
 
-If `.` does both, you need `self`, you need `impl`, you need the whole OOP machine.
+If `.` does both, you need `self`, `impl`, the whole OOP machine.
 
 I kept going in circles. Every version felt wrong.
 
-## Giving Up on `.method()` — The Breakthrough
+## Pipe Evolution: From `|>` to `|`
 
-After many painful iterations, finally gave up on dot-chaining entirely.
+Also iterated on the pipe operator:
 
-Struct = no self. Can only hold data + fn signatures. Never methods.
+```
+v0.4   |>              // F#/Elixir style, too long
+v0.5   . (UFCS)        // ambiguous with field access
+v0.12  newline-. pipe   // whitespace-sensitive = fragile
+v0.13  |               // ← simple. explicit. done.
+```
 
-**Pipe `|` replaces `.method()`**:
+`.` is always field access. `|` is always pipe. No ambiguity. 
+
+Finally:
 
 ```
 res := @[1,2,3,4,5,6,7,8,9]
@@ -169,8 +223,6 @@ res := @[1,2,3,4,5,6,7,8,9]
   | map((x) -> { x * 2 })
   | reduce((x, y) -> { x + y })
 ```
-
-`.` is always field access. `|` is always pipe. No ambiguity. Finally.
 
 ## More Pain: 1-Base vs 0-Base
 
@@ -186,7 +238,7 @@ But if I compile to Rust... Rust is 0-based. Translating 1-base to 0-base everyw
 
 Gave up on 1-base. Another dream killed by practicality.
 
-## More Pain: Write a Full Compiler?
+## Write a Full Compiler? No — Transpile to Rust
 
 Thought about it seriously. Kept coming back to: too hard.
 
@@ -201,10 +253,26 @@ identity := (x) -> { x }
 // becomes: fn identity<T>(x: T) -> T { x }
 ```
 
+## Haskell POC → Rust Rewrite
 
-## Yet Another Problem: Auto-Detection Hell
+Started with **Haskell** for the compiler (v0.23–v0.29):
 
-During `.hom` + `.rs` hemi-self-hosting, hit another wall.
+* ML family is great for writing compilers (pattern matching, ADTs)
+* Quickly validated: lexer → parser → sema → codegen pipeline works
+
+But then: if Homun transpiles to Rust, the compiler should also be in Rust.
+
+**v0.30**: full rewrite from Haskell to Rust. Same architecture, better ecosystem fit.
+
+## Self-Hosting: .hom + .rs Mixed Source
+
+Starting v0.60, the compiler compiles itself:
+
+`.hom` = logic in Homun. `_imp.rs` = Rust helpers (FFI, state, I/O).
+
+This is **hemi-self-hosting**: never fully self-host, always keep Rust as safety net.
+
+## Auto-Detection Hell
 
 Originally thought `:=` could auto-detect: rebind? reference? clone?
 
@@ -214,13 +282,13 @@ Sounded smart. Result: generated Rust code full of `Rc<RefCell<...>>`.
 
 ## The Fix: `::` in Parameters
 
-Had to introduce `::` in parameter position to explicitly say "this is `&mut`":
+Introduced `::` in parameter position to explicitly say "this is `&mut`":
 
 ```
 // Before: auto-detect → Rc<RefCell<...>> everywhere
 move := (pos, vel, dt) -> _ { ... }
 
-// After: (p::Pos) = &mut, explicit and clean
+// After: (pos::Position) = &mut, explicit and clean
 move := (pos::Position, vel: Velocity, dt: float) -> _ {
   pos.x := pos.x + vel.dx * dt
 }
@@ -237,15 +305,9 @@ Realized later: Svelte went through the exact same thing.
 
 Auto-detection sounds elegant. In practice it creates monsters.
 
-## CI/CD: Needed Early for Hemi-Self-Hosting
+## CI/CD: 2-Stage Update for Hemi-Self-Hosting
 
-Introduced GitHub Actions release pipeline early.
-
-Why? Because hemi-self-hosting means **breaking syntax changes will happen**.
-
-Need a safe way to evolve the language without breaking everything.
-
-## 2-Stage Update
+Hemi-self-hosting means **breaking syntax changes will happen**.
 
 ```
 Stage 1: old syntax .hom + Rust core → build new compiler
@@ -256,16 +318,23 @@ Stage 2: update .hom to new syntax → compile again
 * Stage 2: migrate `.hom` to new syntax, recompile
 * Fully self-hosting language would just break. Hemi = safe.
 
+## Why Not Existing Scripting Solutions?
+
+For game engines, current options all have problems:
+
+* **Rhai (Bevy)** — dynamic, no type safety, performance overhead
+* **Lua (mlua/rlua)** — need FFI binding glue, ecosystem split from Rust
+* **GDScript** — locked to Godot, can't use with other engines
+
+Homun: transpiles to Rust directly. Zero-cost abstraction. No FFI. No runtime overhead.
 
 ## Scoping Down: ECS Game Engine DSL
 
 pipe + no-method struct + no self + transpile to Rust
 
-Where does this combination actually make sense?
+This combination naturally fits **ECS game engines**:
 
-**ECS game engines.** Components = data structs. Systems = functions. No OOP needed.
-
-UVP: **hemi-self-hosting** — Homun compiles to Rust, never fully self-hosts.
+Components = data structs. Systems = functions. No OOP needed.
 
 ```
 // Components — just data
@@ -280,6 +349,27 @@ move_system := (pos::Position, vel: Velocity, dt: float) -> _ {
 ```
 
 No traits. No impl blocks. No derive macros.
+
+
+## UVP: Homun = Rust Syntax Sugar
+
+Homun is not trying to replace Rust. It **is** Rust — with nicer syntax.
+
+* `:=` instead of `let` / `let mut`
+* `(x) -> { body }` instead of `|x| body`
+* `|` pipe instead of `.method()` chains
+* `::` for `&mut` — explicit, no magic
+* Structs hold data only — no `impl`, no `self`
+
+Every `.hom` file transpiles to valid `.rs`. Always.
+
+## Lessons Learned
+
+1. **Prototype in a high-level language first** — Python for mermaid-ascii, Haskell for Homun POC
+2. **Transpile, don't compile** — TS→JS, Svelte→JS, Homun→Rust. Standing on giants' shoulders.
+3. **Auto-detection is a trap** — explicit `::` beats magic `Rc<RefCell<...>>`
+4. **Hemi-self-hosting > full self-hosting** — safety net for breaking changes
+5. **Design takes longer than implementation** — 22 spec versions before writing real code
 
 ## Demo
 
