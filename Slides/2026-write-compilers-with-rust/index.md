@@ -8,9 +8,11 @@ I want to create my own programming language.
 
 demo:
 
+Homun playground: https://homun-lang.posetmage.com/
+
 mermaid playground: https://homun-lang.github.io/mermaid-ascii/
 
-Homun playground: https://homun-lang.github.io/homun/
+<img src="./homun-lang.webp" style="max-width:90%; height:auto;">
 
 
 
@@ -110,6 +112,7 @@ Wanted to try Rust — decided to write a compiler in Rust.
 
 But Rust syntax is too complex. So first version written in Python, then ported to Rust.
 
+<img src="./mermaid-td.webp" style="max-width:90%; height:auto;">
 
 ## Compiler Pipeline
 
@@ -150,11 +153,11 @@ But Rust syntax is too complex. So first version written in Python, then ported 
             └─────────┘ └─────────┘
 ```
 
-<img src="./mermaid-arch.webp" style="max-width:90%; height:auto;">
+
 
 ## Mermaid-ASCII Results (cont.)
+<img src="./mermaid-arch.webp" style="max-width:90%; height:auto;">
 
-<img src="./mermaid-td.webp" style="max-width:90%; height:auto;">
 
 ## Back to the Real Dream
 
