@@ -1,16 +1,17 @@
 ---
 title: Write Compilers with Rust
-layout: slides
 ---
 
 ## I Have a Dream
 
 I want to create my own programming language.
 
-Because every language has something I hate.
-
 demo:
-https://github.com/homun-lang/homun/releases
+
+mermaid playground: https://homun-lang.github.io/mermaid-ascii/
+
+Homun playground: https://homun-lang.github.io/homun/
+
 
 
 ## Why 2026 Is the Right Time
@@ -24,6 +25,8 @@ Before writing a single line of code, spent months discussing design with AI —
 In 2026, designing a language is no longer about invention. It's about **curation**.
 
 ## What's Wrong with Languages
+
+Every language has something I hate.
 
 * C++ hooks LLVM to a frontend — stupid. ML family (OCaml, Haskell) is better for compilers
 * C++ has huge breaking changes every version — `constexpr` scope differs across C++11/14/17/20
@@ -224,6 +227,30 @@ res := @[1,2,3,4,5,6,7,8,9]
   | reduce((x, y) -> { x + y })
 ```
 
+## The `@` Compromise: Easy to Parse, Nice to Read
+
+Wanted Python-style `[]` for lists and `{}` for dicts. But:
+
+* `[` is also indexing — `a[0]` vs `[1,2,3]`? Parser ambiguity.
+* `{` is also code blocks — `{ x + 1 }` vs `{ "a": 1 }`? More ambiguity.
+* `()` is function calls and grouping — can't use for tuples without conflict.
+
+The compromise: **`@` prefix for collections** (v0.11):
+
+```
+@[1, 2, 3]          // list (Vec)
+@{"a": 1, "b": 2}   // dict (HashMap)
+@{a, b, c}          // set (HashSet) — no colons = set
+(1, 2)              // tuple — () is reserved for tuples only
+```
+
+* `[` = always indexing
+* `{` = always code block
+* `@` = always collection literal
+* `()` = tuples, function calls, grouping
+
+No ambiguity. Parser stays simple. Decided before implementation — one less headache.
+
 ## More Pain: 1-Base vs 0-Base
 
 Initially wanted 1-based indexing — more intuitive for humans.
@@ -370,9 +397,3 @@ Every `.hom` file transpiles to valid `.rs`. Always.
 3. **Auto-detection is a trap** — explicit `::` beats magic `Rc<RefCell<...>>`
 4. **Hemi-self-hosting > full self-hosting** — safety net for breaking changes
 5. **Design takes longer than implementation** — 22 spec versions before writing real code
-
-## Demo
-
-WASM playground: https://homun.posetmage.com/mermaid-ascii/
-
-Homun playground: https://homun.posetmage.com/Homun-Lang/
