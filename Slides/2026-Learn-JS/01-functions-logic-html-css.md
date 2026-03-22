@@ -1,6 +1,5 @@
 ---
 title: Learn JS - 01 Functions, Logic, HTML, CSS
-layout: slides
 ---
 
 ## ch01 — Functions

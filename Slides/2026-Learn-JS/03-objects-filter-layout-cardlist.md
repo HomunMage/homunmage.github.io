@@ -1,6 +1,5 @@
 ---
 title: Learn JS - 03 Objects, Filter, Layout, Card List
-layout: slides
 ---
 
 ## ch09 — Objects

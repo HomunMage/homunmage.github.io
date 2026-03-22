@@ -1,6 +1,5 @@
 ---
 title: Learn JS - 04 Advanced Data, Functions, CSS
-layout: slides
 ---
 
 ## ch13 — Multiple Inputs

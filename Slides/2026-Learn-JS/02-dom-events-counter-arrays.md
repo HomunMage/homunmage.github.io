@@ -1,6 +1,5 @@
 ---
 title: Learn JS - 02 DOM, Events, Counter, Arrays
-layout: slides
 ---
 
 ## ch05 — DOM
