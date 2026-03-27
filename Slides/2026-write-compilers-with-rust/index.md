@@ -165,17 +165,68 @@ OK, mermaid-ascii works. Time for the real dream: **my own language**.
 
 But I had no idea how painful this would be.
 
+## First Question: Strong or Weak Typing?
+
+Every language picks a side:
+
+```
+Strong typing (Java, Rust):
+  int x = 42;
+  String s = "hello";
+  // Verbose, but catches errors at compile time
+
+Weak/Dynamic typing (Python, JS):
+  x = 42
+  s = "hello"
+  // Clean, but "undefined is not a function" at 3am
+```
+
+Homun wants: clean syntax like Python, but type-safe like Rust.
+
+TypeScript's approach: gradual typing. You can write `any` and opt out. Convenient, but defeats the purpose.
+
+Homun doesn't want an escape hatch. Every program must be fully type-safe.
+
+## The Answer: Learn from C++ `auto`
+
+```
+// C++ evolution of variable typing:
+int x = 42;            // C style: explicit type
+auto x = 42;           // C++11: auto deduces type from value
+                        // but "auto" is redundant — 42 is obviously int
+
+// Homun: just drop "auto" entirely
+x := 42                // type = int, deduced from 42
+s := "hello"            // type = str, deduced from "hello"
+flag := true            // type = bool, deduced from true
+```
+
+The variable's type is **fixed at first assignment** — once `x := 42`, x is `int` forever.
+
+No annotation. No `auto`. No `let`. Just `:=` and the value decides the type.
+
+```
+// Homun
+x := 42
+x := "hello"           // ❌ compile error: x is int, not str
+
+// Same for collections
+nums := @[1, 2, 3]     // type = list of int, deduced from elements
+nums := @["a"]          // ❌ compile error: nums is @[int]
+```
+
+Not dynamic — **Rust checks everything at compile time**. Write like Python, caught like Rust.
+
 ## Stuck for Months: Lambda Syntax Evolution
 
 Spent months agonizing over syntax. Tried 
 
 ```
-v0.1   lambda()              // too verbose
-v0.3   () -> Type {}          // ok but messy
-v0.6   \() -> Type {}         // Haskell-ish, weird
-v0.7   || -> Type {}          // Rust-ish, ugly
-v0.8   |params| -> Type {}    // still ugly
-v0.13  (params) -> { body }   // ← finally! clean.
+lambda()              // too verbose
+\() -> Type {}         // Haskell-ish, weird
+|| -> Type {}          // Rust-ish, ugly
+|params| -> Type {}    // still ugly
+(params) -> { body }   // ← finally! clean.
 ```
 
 
@@ -213,10 +264,10 @@ I kept going in circles. Every version felt wrong.
 Also iterated on the pipe operator:
 
 ```
-v0.4   |>              // F#/Elixir style, too long
-v0.5   . (UFCS)        // ambiguous with field access
-v0.12  newline-. pipe   // whitespace-sensitive = fragile
-v0.13  |               // ← simple. explicit. done.
+|>              // F#/Elixir style, too long
+. (UFCS)        // ambiguous with field access
+newline-. pipe   // whitespace-sensitive = fragile
+|               // ← simple. explicit. done.
 ```
 
 `.` is always field access. `|` is always pipe. No ambiguity. 
@@ -267,6 +318,64 @@ Learned from TypeScript & Svelte — just compile to Rust. Let Rust handle the h
 But if I compile to Rust... Rust is 0-based. Translating 1-base to 0-base everywhere = nightmare.
 
 Gave up on 1-base. Another dream killed by practicality.
+
+## More Pain: Currying
+
+Currying = a function that takes multiple arguments is transformed into a chain of functions, each taking one argument.
+
+```
+// Normal function
+add(a, b) = a + b
+add(1, 2) // 3
+
+// Curried version
+add(a)(b) = a + b
+add(1)(2) // 3
+
+// Why is this powerful? Partial application:
+add1 = add(1)    // returns a function that adds 1
+add1(2)          // 3
+add1(10)         // 11
+```
+
+Currying is elegant in Haskell / ML — every function is automatically curried.
+
+## Currying × Pipe: The Conflict
+
+If Homun had currying, pipe must feed into the **last** parameter:
+
+```
+// Without currying (current Homun):
+// x | f(args) → f(x, args)     pipe = first param
+@[1,2,3] | filter(is_even)      // filter(@[1,2,3], is_even)
+
+// With currying (Haskell-style):
+// x | f(args) → f(args)(x)     pipe = last param
+@[1,2,3] | filter(is_even)      // filter(is_even)(@[1,2,3])
+```
+
+Why last? Because curried `filter(is_even)` returns a new function waiting for the collection — the "data" argument must be rightmost to enable partial application.
+
+## Why Not Currying: Rust Can't Do It
+
+Considered currying seriously. But Homun transpiles to Rust, and Rust has no currying.
+
+```
+// Curried Homun (hypothetical)
+add := (a) -> (b) -> { a + b }
+
+// Would need to transpile to... what?
+// Rust closures capturing variables — messy, allocation, lifetime hell
+fn add(a: i32) -> impl Fn(i32) -> i32 {
+    move |b| a + b   // closure + move + impl Fn
+}
+```
+
+Every curried function → nested closures in Rust. Performance cost, lifetime complexity, unreadable output.
+
+Same story as 1-base indexing: **sounds nice, but transpiling to Rust kills it.**
+
+Final decision: pipe feeds **first** parameter. No currying. Simple 1-to-1 transpile.
 
 ## Write a Full Compiler? No — Transpile to Rust
 
