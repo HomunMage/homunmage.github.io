@@ -43,6 +43,35 @@ But making a language from scratch is too hard.
 
 So start with a simpler example first.
 
+## Why Rust?
+
+I hate C++. But I need a systems language. Why Rust?
+
+**1. Rust is from the Haskell family**
+
+Rust borrowed the best parts from ML/Haskell:
+* Pattern matching, ADTs (`enum` with data), `Option`/`Result` instead of null
+* Trait system ≈ Haskell type classes
+* Expression-based (everything returns a value)
+
+Writing a compiler in Rust feels like writing it in Haskell — but with zero-cost abstractions.
+
+**2. Rust compiles to WASM**
+
+```
+cargo build --target wasm32-unknown-unknown
+```
+
+One command → runs in the browser via JavaScript.
+
+This is why Homun playground and mermaid-ascii playground both work on the web. No server needed.
+
+C++ can technically do WASM too, but the toolchain is painful. Rust + `wasm-pack` just works.
+
+**3. Cargo is not CMake**
+
+C++ build system is a nightmare. Rust's `cargo` is sane by default — deps, build, test, publish, all in one tool.
+
 ## What Is a Compiler?
 
 

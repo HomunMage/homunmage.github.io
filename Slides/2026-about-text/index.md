@@ -20,10 +20,11 @@ PosetMage
 
 1. PDF Layout Hell → Content vs Layout
 2. Writing a Book in Markdown → Pipeline
-3. Blogging → Jekyll + Web Components
-4. Japanese Game OCR → Screenshot Translation
-5. Web Articles → TTS
-6. Video Subtitles → Whisper
+3. Knowledge Management → Why Markdown
+4. Blogging → Jekyll + Web Components
+5. Japanese Game OCR → Screenshot Translation
+6. Web Articles → TTS
+7. Video Subtitles → Whisper
 
 ## Part 1: PDF Layout Hell
 
@@ -84,7 +85,83 @@ A Python pipeline that handles the mess for me:
 
 * [markbook](https://github.com/HomunMage/markbook)
 
-## Part 3: The Article Management Journey
+## Part 3: Knowledge Management
+
+Once you start writing in Markdown, you accumulate a LOT of files.
+
+How do you organize hundreds of notes across different topics?
+
+## The Problem: Knowledge Is Cross-Domain
+
+Modern knowledge doesn't fit in folders:
+
+```
+Documents/
+├── Work/
+├── Personal/
+└── Study/
+    └── "AI for game design" — is this AI? Game? Design?
+```
+
+A single topic can span art, science, engineering, business simultaneously.
+
+Traditional library classification (tree structure) breaks down.
+
+## Tags > Folders
+
+The answer: **tag-based** classification, not tree-based.
+
+* One note can have multiple tags — lives in ALL categories at once
+* Network structure matches how the brain actually works — neural networks
+* AI (ChatGPT) can help auto-classify and suggest tags
+
+```
+note: "Rust WASM for game dev"
+tags: [Rust, WASM, GameDev, WebDev]
+  → belongs everywhere, not stuck in one folder
+```
+
+## Second Brain: References
+
+Zettelkasten (卡片盒筆記法) — write atomic notes, link them into a knowledge web.
+
+* ★★★★★ [我如何用第二大脑"记住"所有事情？｜老石谈芯](https://youtu.be/pjPgmaHIDAE)
+* ★★★☆☆ [如何构造高效的知识管理系统](https://youtu.be/5Yn4-aSggI0)
+* ★★★☆☆ [Zettelkasten 卡片盒笔记法](https://youtu.be/2VurHJtWKtk)
+
+## Knowledge Management Tools
+
+| Tool | Pros | Cons |
+|------|------|------|
+| **Confluence** | Team collaboration | Heavy, paid, vendor lock-in |
+| **HackMD** | Real-time collab, Markdown | Cloud-dependent |
+| **Roam Research** | Bidirectional links | Paid, proprietary format |
+| **Obsidian** | Local-first, graph view | Plugin ecosystem fragile |
+| **Logseq** | Open source, outliner | Smaller community |
+| **Google Docs** | Everyone has it | Not Markdown, not portable |
+
+All of these have one problem: **your data lives in their format**.
+
+## Why Markdown Wins
+
+* Simpler than Word — no formatting distractions, focus on content
+* **You own the file** — it's just a `.md` text file
+  * Move it anywhere: GitHub, USB, Dropbox, Obsidian
+  * Edit with anything: VS Code, Sublime, Notepad, vim
+  * Render anywhere: GitHub Pages, Jekyll, Hugo, or just `cat`
+* Future-proof — plain text never becomes obsolete
+
+> Word files from 2005 need special software. Markdown from 2005 still opens in Notepad.
+
+## From Knowledge to Publishing
+
+OK, knowledge management is solved: write `.md`, tag it, link it.
+
+But **publishing** is a different beast. How do I turn Markdown into a website?
+
+This is where the next decade of pain begins...
+
+## Part 4: The Article Management Journey
 
 Google Blogger → Medium → Obsidian → VS Code Foam → Jekyll
 
@@ -256,7 +333,7 @@ But in the end, Jekyll + WC is the most flexible.
 
 * [Jekyll Layouts](https://github.com/PosetMage/jekyll_layouts)
 
-## Part 4: I Just Want to Play Japanese Games
+## Part 5: I Just Want to Play Japanese Games
 
 Playing a Japanese visual novel, the story looks amazing — but I can't read it.
 
@@ -283,7 +360,7 @@ After weeks of tuning: screenshot → OCR → translate pipeline that actually w
 
 * [JP_OCR_translate](https://github.com/LatticeMage/JP_OCR_translate)
 
-## Part 5: My Eyes Are Dying
+## Part 6: My Eyes Are Dying
 
 I read a lot of long-form articles — blog posts, documentation, research.
 
@@ -310,7 +387,7 @@ The real challenge was never "text to speech" — it was "web page to clean text
 
 * [Browser-TTS](https://github.com/LatticeMage/Browser-TTS)
 
-## Part 6: I Want Subtitles on My Videos
+## Part 7: I Want Subtitles on My Videos
 
 Recording a talk or tutorial, but adding subtitles manually is torture.
 
