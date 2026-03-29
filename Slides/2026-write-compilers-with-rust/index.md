@@ -194,7 +194,32 @@ OK, mermaid-ascii works. Time for the real dream: **my own language**.
 
 But I had no idea how painful this would be.
 
-## First Question: Strong or Weak Typing?
+## First Rage: Kill `=` vs `==`
+
+The number one source of bugs in C/C++/JS:
+
+```
+if (x = 0)     // assignment, not comparison — always false
+if (x == 0)    // comparison — what you actually meant
+```
+
+Every programmer has been burned by this. Homun's answer: **steal `:=` from Go and eliminate `=` entirely**.
+
+```
+// Go
+x := 42              // declaration + assignment
+x = 10               // reassignment
+
+// Homun — go further, ONLY := exists
+x := 42              // declaration
+x := 10              // reassignment (same :=)
+                      // = does not exist in Homun
+                      // == is the only comparison
+```
+
+No `=` in the language at all. No ambiguity. No bugs. One less footgun.
+
+## Second Question: Strong or Weak Typing?
 
 Every language picks a side:
 
@@ -216,23 +241,27 @@ TypeScript's approach: gradual typing. You can write `any` and opt out. Convenie
 
 Homun doesn't want an escape hatch. Every program must be fully type-safe.
 
-## The Answer: Learn from C++ `auto`
+## The Answer: Type Deduction from C++ `auto`
+
+`:=` already exists (from Go). Now the question: do we need type annotations?
 
 ```
-// C++ evolution of variable typing:
+// C++ evolution:
 int x = 42;            // C style: explicit type
 auto x = 42;           // C++11: auto deduces type from value
                         // but "auto" is redundant — 42 is obviously int
+```
 
-// Homun: just drop "auto" entirely
+Homun: since `:=` already means "assign", and the value determines the type — just drop the keyword.
+
+```
+// Homun: no "auto", no "var", no "let"
 x := 42                // type = int, deduced from 42
 s := "hello"            // type = str, deduced from "hello"
 flag := true            // type = bool, deduced from true
 ```
 
 The variable's type is **fixed at first assignment** — once `x := 42`, x is `int` forever.
-
-No annotation. No `auto`. No `let`. Just `:=` and the value decides the type.
 
 ```
 // Homun
@@ -325,6 +354,19 @@ The compromise: **`@` prefix for collections** (v0.11):
 @{"a": 1, "b": 2}   // dict (HashMap)
 @{a, b, c}          // set (HashSet) — no colons = set
 (1, 2)              // tuple — () is reserved for tuples only
+x[1:3]              // slicing — from Python
+```
+
+The `@[]` and `@{}` syntax is original to Homun. But **slicing `[:]` comes from Python**:
+
+```
+// Python
+nums = [1, 2, 3, 4, 5]
+nums[1:3]            // [2, 3]
+
+// Homun — same syntax
+nums := @[1, 2, 3, 4, 5]
+nums[1:3]            // @[2, 3]
 ```
 
 * `[` = always indexing
@@ -464,6 +506,32 @@ identity := (x) -> { x }
 // becomes: fn identity<T>(x: T) -> T { x }
 ```
 
+## But Wait — Doesn't the Glue Layer Cost Performance?
+
+Transpiled code has an extra abstraction layer between Homun semantics and final binary.
+
+From my C++ experience: **LLVM optimizes this away**.
+
+```
+Homun source
+    ↓ transpile
+Rust source (glue layer — wrapper functions, type conversions)
+    ↓ rustc frontend
+LLVM IR
+    ↓ optimization passes (inlining, dead code elimination, constant folding)
+Machine code  ← glue layer is gone
+```
+
+Rust uses the same LLVM backend as C++/Clang. The same zero-cost abstraction principle applies:
+
+* Wrapper functions → **inlined away**
+* Generic monomorphization → **specialized at compile time**
+* Extra indirection → **eliminated by optimization passes**
+
+The transpiled Rust code might look verbose, but after LLVM, the final binary is as if you wrote optimized Rust by hand.
+
+> This is exactly why C++ `template<>` and Rust `impl<T>` have zero runtime cost — LLVM doesn't care about your source-level abstractions.
+
 ## Haskell POC → Rust Rewrite
 
 Started with **Haskell** for the compiler (v0.23–v0.29):
@@ -515,6 +583,33 @@ Realized later: Svelte went through the exact same thing.
 * **Svelte 5**: gave up. Explicit `$state()` rune. You tell the compiler what's reactive.
 
 Auto-detection sounds elegant. In practice it creates monsters.
+
+## Circular Dependencies: Three-Color DFS
+
+Inspired by C/C++ include guards, but more rigorous.
+
+The resolver uses a **three-color DFS** to handle `use` imports:
+
+```
+White → unvisited
+Gray  → currently processing (on the DFS stack)
+Black → done, exports cached
+```
+
+```
+resolve_file(path):
+  if color[path] == Black → return cached exports
+  if color[path] == Gray  → ERROR: cycle detected!
+  color[path] = Gray          // mark "in progress"
+  for dep in dependencies:
+    resolve_file(dep)         // recurse
+  color[path] = Black         // mark "done"
+  emit file                   // topological order: leaves first
+```
+
+Better than `#pragma once` — it doesn't just skip duplicates, it **detects actual cycles** and reports the exact chain: `a.hom → b.hom → c.hom → a.hom`.
+
+Result: files compiled in **topological order** (leaves first), no duplicate, no cycle.
 
 ## CI/CD: 2-Stage Update for Hemi-Self-Hosting
 
