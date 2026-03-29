@@ -8,6 +8,20 @@ Design Journey, Architecture Tradeoffs & Lessons Learned
 
 *How we designed a project management system where AI is a first-class collaborator, not just a tool.*
 
+
+## Table View
+
+<img src="./01_table_view.webp" style="max-width:90%; height:auto;">
+
+## Kanban View
+
+<img src="./02_kanban_view.webp" style="max-width:90%; height:auto;">
+
+## Timeline View
+
+<img src="./03_timeline_view.webp" style="max-width:90%; height:auto;">
+
+
 ## About This Talk
 
 What we will cover in 60 minutes:
