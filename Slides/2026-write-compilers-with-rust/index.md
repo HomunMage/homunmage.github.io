@@ -334,9 +334,25 @@ The compromise: **`@` prefix for collections** (v0.11):
 
 No ambiguity. Parser stays simple. Decided before implementation — one less headache.
 
+**Why this matters: LL(1) parsing.** The parser looks at just **one token ahead** to decide what to do. If `[` could mean both "list literal" and "index operator", one token isn't enough — you'd need backtracking or extra context. With `@`, the first token is unambiguous:
+
+* See `@[` → it's a list. See `x[` → it's indexing.
+* See `@{` → it's a dict/set. See `{` alone → it's a code block.
+
+This keeps the parser **LL(1)-compatible**: simple, fast, no backtracking needed.
+
 ## More Pain: 1-Base vs 0-Base
 
 Initially wanted 1-based indexing — more intuitive for humans.
+
+I'm not alone — plenty of languages chose 1-based:
+
+* **Lua** — the most famous 1-based scripting language
+* **Julia** — scientific computing, follows math convention
+* **R** — statistics, 1-based vectors
+* **MATLAB / Octave** — engineering & math standard
+* **Fortran** — the original 1-based language
+* **Smalltalk** — OOP pioneer, collections start at 1
 
 But then: should I write a full compiler from scratch?
 
@@ -347,6 +363,33 @@ Learned from TypeScript & Svelte — just compile to Rust. Let Rust handle the h
 But if I compile to Rust... Rust is 0-based. Translating 1-base to 0-base everywhere = nightmare.
 
 Gave up on 1-base. Another dream killed by practicality.
+
+## Embedding the Standard Library
+
+Early approach: `hom-std` was a folder you had to place **next to your source code**.
+
+```
+my_project/
+├── main.hom
+└── hom/          ← had to copy this folder manually
+    ├── std.hom
+    └── ...
+```
+
+Problem: every project needs a copy of `hom/`. Forget to copy it? Import fails. Update the std? Copy again to every project.
+
+Solution: **embed `hom-std` as a static variable inside `homunc`** (the compiler binary).
+
+```rust
+static HOM_STD: &str = include_str!("../hom-std/...");
+```
+
+When the compiler encounters an import path pointing to `hom/...`, it resolves to the embedded static var instead of the filesystem. No more copying folders — the standard library ships **inside the compiler**.
+
+* Before: `import hom.std.io` → looks for `./hom/std/io.hom` on disk
+* After: `import hom.std.io` → resolves from embedded static data in `homunc`
+
+One binary, batteries included.
 
 ## More Pain: Currying
 
