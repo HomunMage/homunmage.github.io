@@ -2,6 +2,11 @@
 title: "Next-Gen AI-Native Project Management System — Design Journey & Tradeoffs"
 ---
 
+## LatticeCast
+
+<img src="https://raw.githubusercontent.com/LatticeCast/LatticeCast/main/layout.webp" style="max-width:90%; height:auto;">
+
+
 ## Next-Gen AI-Native PM System
 
 Design Journey, Architecture Tradeoffs & Lessons Learned
@@ -36,7 +41,7 @@ What we will cover in 60 minutes:
 8. The AI collaboration workflow that changes everything
 9. Where we landed and why
 
-## It Started with a Hack: claude-bot
+## It Started with a Hack: claude-bot v1
 
 Before designing any PM system, I built something crude but functional:
 
@@ -52,9 +57,9 @@ tmux session
 
 The entire "project management" was a markdown checkbox file. No database. No UI. Just text files.
 
-## claude-bot: How It Works
+## claude-bot v1: The Markdown Era
 
-The "ticket system" is a plain markdown file:
+The "ticket system" was a plain markdown file:
 
 ```markdown
 ## Phase 1: Core
@@ -63,19 +68,52 @@ The "ticket system" is a plain markdown file:
 - [ ] Create API endpoints
 ```
 
-Workers read the file, pick the first unchecked ticket, implement it, run tests, commit, and check the box. That's it.
+Workers read the file, pick the first unchecked ticket, implement it, run tests, commit, and check the box.
 
-**Coordination via filesystem:**
+**This worked — but didn't scale. So we evolved it.**
 
-| Mechanism | How |
-|-----------|-----|
-| Task queue | `.tmp/llm.plan.status` (markdown checkboxes) |
-| Git lock | `mkdir _git.lock` (atomic) |
-| Worker signals | `_trigger_{id}` files with DONE/BLOCKED |
-| Timeout | Kill worker if stuck > 900 seconds |
-| Logs | `.tmp/out/worker_N.log` |
+## claude-bot v2: LatticeCast PM as SSOT
 
-## claude-bot: The Planning Phase
+Replaced markdown checkboxes with a real PM system (the one we built):
+
+```
+tmux session
+ ├── window 0: orchestrator (Haiku) — queries PM API, assigns tickets
+ ├── window 1: worker #1 (Sonnet) — git worktree, codes, tests, merges
+ ├── window 2: worker #2 (Sonnet) — git worktree, codes, tests, merges
+ └── ...N workers
+```
+
+**Key difference: LatticeCast PM is the single source of truth, not text files.**
+
+| v1 (Markdown) | v2 (LatticeCast PM) |
+|----------------|---------------------|
+| `.tmp/llm.plan.status` checkboxes | HTTP API ticket queries |
+| Done / Not done | `todo → in_progress → testing → review → merged` |
+| Workers edit same file | Workers call PM API to update status |
+| No isolation | Git worktree per worker — zero conflicts |
+| No history | Full ticket history in database |
+
+## claude-bot v2: Worker Lifecycle
+
+Each worker runs in an isolated git worktree:
+
+```
+1. Query PM API → pick first `todo` ticket
+2. git worktree add .tmp/worker_{id} -b ticket/{slug}
+3. PM status → in_progress
+4. Implement the ticket (one ticket only, stay in scope)
+5. PM status → testing → run tests
+   ├── pass → PM status → review → commit
+   └── fail → PM status → debugging → fix → re-test
+6. Merge branch back to main, remove worktree
+7. PM status → merged
+8. Signal DONE to orchestrator
+```
+
+**15 min timeout per ticket. If stuck after 3 attempts → BLOCKED.**
+
+## claude-bot v2: The Planning Phase
 
 Before running, there's an interactive planning session:
 
@@ -87,8 +125,7 @@ Claude (Tech Lead):
   → Proposes architecture
   → Asks clarifying questions
   → Breaks work into <15 min tickets
-  → Creates .tmp/llm.plan.status
-  → Designs custom runner scripts
+  → Creates tickets in LatticeCast PM via API
   → "Ready to start?"
 
 You: "Go"
@@ -98,23 +135,23 @@ You: "Go"
 
 Each ticket must be: independently testable, independently committable, completable in under 15 minutes.
 
-## claude-bot: What I Learned
+## claude-bot: What v1 Taught Us
 
 **It works.** AI can autonomously pick tickets, write code, test, and commit.
 
-But the "PM system" (markdown checkboxes) is painfully limited:
+But markdown checkboxes were painfully limited:
 
 * **No hierarchy** — flat list only, no Epic → Story → Task
 * **No status beyond done/not-done** — no "in progress", "in review", "blocked"
 * **No views** — no kanban, no timeline, no filtering
 * **No persistence** — `.tmp/` files are ephemeral, no history
 * **No git integration** — workers commit, but there's no branch → ticket mapping
-* **No multi-project** — one plan file per project, no cross-project visibility
-* **No web UI** — terminal only, can't share with non-technical stakeholders
+
+**v2 solved all of these** — but first we had to build the PM system.
 
 ## The Realization
 
-claude-bot proved the concept:
+claude-bot v1 proved the concept:
 
 **AI can be a productive team member — if the PM system speaks its language.**
 
@@ -131,7 +168,7 @@ But markdown checkboxes don't scale. I need:
 ## From Hack to System: The Journey
 
 ```
-claude-bot (markdown checkboxes in .tmp/)
+claude-bot v1 (markdown checkboxes in .tmp/)
   ↓ "this works but doesn't scale"
   ↓
 PM System Design (pm/core.md, pm/view.md)
@@ -144,6 +181,9 @@ Architecture deep dive (Dynamic DDL? Template?)
   ↓ "what do we actually need?"
   ↓
 Final answer: Fullstack template + AI writes standard code
+  ↓
+claude-bot v2 (LatticeCast PM API + git worktrees)
+  ↓ "now AI has a real PM system to work with"
 ```
 
 **Each step taught us something. Let's walk through the decisions.**
@@ -879,6 +919,30 @@ AI:  Writes migration SQL → models → routes → frontend
      Native PG types, proper indexes
      No shared infrastructure conflicts
 ```
+
+## Debugging Tip: Version Your `.claude/skills`
+
+When building with Claude Code, skills in `.claude/skills/` control AI behavior. But how do you know if Claude actually loaded the latest version?
+
+**Add a `version` field to the YAML frontmatter:**
+
+```yaml
+# .claude/skills/pm-workflow/SKILL.md
+---
+name: pm-workflow
+version: 1.3
+description: PM ticket creation and git sync workflow
+---
+
+## Instructions
+...
+```
+
+When something feels off, just ask Claude: **"What version of pm-workflow are you using?"**
+
+If it says `1.2` but you wrote `1.3` — it's using a stale cache. Restart the session.
+
+Simple, zero-cost, saves hours of debugging "why isn't it following my instructions?"
 
 ## Open Questions
 
