@@ -1,3 +1,7 @@
+---
+layout: page/note/basic
+---
+
 # 99 - 校對總覽 / QA Checklist Overview
 
 ---

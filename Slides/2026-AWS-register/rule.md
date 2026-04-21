@@ -1,3 +1,7 @@
+---
+layout: page/note/basic
+---
+
 # AWS 教學文件撰寫規範 (rule.md)
 
 > **canonical spec** — 每張 ticket 引用本檔。Worker 開始撰寫任一文章前 **必須先讀完本檔**。

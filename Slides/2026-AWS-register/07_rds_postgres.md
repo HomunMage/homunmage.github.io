@@ -1,3 +1,7 @@
+---
+layout: page/note/basic
+---
+
 # 07 - 建立 RDS PostgreSQL 資料庫 / Create RDS PostgreSQL Database
 
 您好 {{客戶稱呼}},非常感謝您協助我們設定 AWS 環境!這個步驟將為我們建立一個 PostgreSQL 資料庫,是 lattice-cast 系統運作的核心元件之一。操作過程約 20 分鐘,遇到任何疑問都歡迎隨時來信,我們會立即協助。

@@ -1,3 +1,7 @@
+---
+layout: page/note/basic
+---
+
 # 01 - 註冊 AWS Global 帳號 / Register an AWS Global Account
 
 您好 {{客戶稱呼}},非常感謝您撥冗協助我們設定 AWS 環境！這篇說明會帶您一步一步完成帳號註冊，預計只需要 30〜45 分鐘。遇到任何不清楚的地方，都歡迎直接來信詢問。
