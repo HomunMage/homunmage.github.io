@@ -1,245 +1,241 @@
 # 03 - 帳單告警與成本控管 / Billing Alerts & Cost Control
 
-> ⚠️ **重要警告 / Critical Warning**
-> 本教學僅適用 AWS Global(`aws.amazon.com`)。
-> 若註冊頁出現「中國區 / 由光環新網或西雲營運 / Sinnet / NWCD」字樣,請立即關閉重來。
-> This guide applies to AWS Global only. Close and restart if you see "China region / operated by Sinnet or NWCD".
+您好 {{客戶稱呼}},感謝您協助我們設定 AWS 環境!這一步是幫您的帳戶設定「花費超過門檻就自動發 email 通知」的功能,只需要約 15 分鐘,設定完後就能安心讓系統在背後運作,不用擔心費用失控。
 
----
+> 💡 **貼心提醒**:截圖可能因 AWS 介面更新略有差異,以實際畫面為準。若找不到某個按鈕,來信附上截圖,我們立刻協助。
 
-## 為何這一步不能跳過 / Why This Step Matters
-
-AWS 按用量計費,設定錯誤可能讓帳單暴增。以下是一個真實案例:
-
-> 一位工程師測試 AI 訓練,選了 `p3.8xlarge`(每小時 USD $12.24),忘記關掉執行個體。
-> 一個月後帳單超過 **USD $8,800**。AWS 不會自動停用,也不退款。
-
-**帳單告警是最後一道防線**。設定完成後,花費達到門檻時您會收到 email,可以即時止損。
+> ⚠️ **重要:請勿使用 AWS 中國區**
+> 請確認網址列為 `console.aws.amazon.com`(無 `.cn`)。若頁面出現「中國區 / 光環新網 / 西雲 / Sinnet / NWCD」字樣,請關閉視窗從 `https://aws.amazon.com` 重新進入。
+> (中國區是完全獨立的服務系統,與我們要部署的環境不相容。)
 
 ---
 
 ## 預估 / Estimate
 
-- 時間 (Time):約 15 分鐘
-- 費用 (Cost):免費(AWS Budgets 前 2 個預算免費;Cost Explorer 免費啟用)
-- 需準備 (Prerequisites):
-  - 已完成 01 帳號註冊(有可登入的 AWS 帳號)
-  - 收 email 的信箱(接收告警通知)
+- **時間**:約 15 分鐘
+- **費用**:完全免費(AWS Budgets 每帳號前 2 個預算不收費;Cost Explorer 啟用也免費)
+- **需準備**:
+  - 已完成第 01 篇的 AWS 帳號(能登入即可)
+  - 接收告警通知用的 email 信箱
 
 ---
 
-## 名詞快查 / Glossary
+## 名詞解說 / Glossary
 
-| 中文 | English | 說明 |
-|------|---------|------|
-| 帳單 | Billing | AWS 向您收費的金額明細 |
-| 預算 | Budget | 您設定的每月花費上限,超過時發通知 |
-| 成本探索工具 | Cost Explorer | 圖形化顯示每日、每月費用趨勢 |
-| 免費方案 | Free Tier | AWS 新帳號首年免費的用量額度 |
-| 告警門檻 | Alert threshold | 費用達到幾 % 時觸發通知 |
-| Root 帳號 | Root account | 註冊時建立的主帳號,擁有最高權限 |
+| 名詞 | 說明 |
+|------|------|
+| Billing(帳單) | AWS 向您收費的金額明細,就像電話帳單一樣 |
+| Budgets(預算) | 您自己設定的每月花費上限;超過後 AWS 發 email 給您,**不會自動停用服務或扣款** |
+| 告警門檻 (Alert threshold) | 費用達到預算的幾 % 時觸發通知(例如 80% 代表快到上限了) |
+| Cost Explorer | 用圖表顯示每日、每月費用走勢,讓您一眼看出花在哪 |
+| Free Tier(免費方案) | 新帳號頭 12 個月部分服務的免費額度;快用完時 AWS 可以發通知 |
+| Root 帳號 | 您在第 01 篇建立的主帳號,這一篇操作需要以 Root 登入 |
+
+---
+
+## 為何這一步不可跳過 / Why This Matters
+
+AWS 按用量計費——資源用了多少算多少。若有服務設定錯誤或忘記關閉,帳單可能在不知情的情況下累積。**帳單告警是最後一道防線**:費用一達到您設的門檻,就立刻發 email 給您,讓您有機會及時處理。
 
 ---
 
 ## 操作步驟 / Steps
 
-### 步驟 1:登入 AWS 主控台 (Step 1: Sign in to AWS Console)
+### 步驟 1:登入 AWS 主控台 (Step 1: Sign in to the Console)
 
-1. 開啟瀏覽器,前往 `https://aws.amazon.com`
-2. 點擊右上角「登入主控台 (Sign in to the Console)」
-3. 輸入您的 Root 帳號 email 與密碼
-4. 完成 MFA 驗證(如已啟用)
+1. 開啟瀏覽器,前往 `https://aws.amazon.com`,點擊右上角「登入主控台 (Sign in to the Console)」
+2. 選擇「Root 使用者 (Root user)」,輸入您在第 01 篇建立的 email 與密碼
+3. 完成 MFA 驗證(若已啟用)
+4. 登入後會看到 AWS 主控台首頁,如下圖所示
 
-> 💡 確認網址列顯示 `console.aws.amazon.com`,**不含** `.cn`
+![AWS 主控台首頁,左側 Explore AWS 小工具中可見「Set up a cost budget using AWS Budgets」連結](images/03_setup_cost_budget.webp)
+*來源: [AWS Hands-on — Control Your Costs with AWS Budgets](https://docs.aws.amazon.com/hands-on/latest/control-your-costs-free-tier-budgets/control-your-costs-free-tier-budgets.html), 取用日期 2026-04-21*
 
----
-
-### 步驟 2:前往 Budgets 建立預算 (Step 2: Navigate to Budgets)
-
-1. 登入後,點擊頁面右上角的帳號名稱
-2. 下拉選單選擇「帳單與成本管理 (Billing and Cost Management)」
-
-   ![待補:帳號下拉選單 (zh)](images/placeholder_03_billing_menu_zh.webp)
-   ![待補:Account dropdown menu (en)](images/placeholder_03_billing_menu_en.webp)
-
-3. 在左側選單找到「Budgets」,點擊進入
-4. 點擊右上角「建立預算 (Create budget)」
-
-   ![待補:Budgets 首頁 (zh)](images/placeholder_03_budgets_console_zh.webp)
-   ![待補:Budgets landing page (en)](images/placeholder_03_budgets_console_en.webp)
+> 💡 確認網址列顯示 `console.aws.amazon.com`,不含 `.cn`
 
 ---
 
-### 步驟 3:設定預算類型與金額 (Step 3: Configure Budget Type & Amount)
+### 步驟 2:前往 Budgets(預算)頁面 (Step 2: Navigate to Budgets)
 
-1. 預算類型選擇「成本預算 (Cost budget)」— **不要**選 Usage 或 Savings Plans
-2. 點擊「下一步 (Next)」
-3. 填寫預算設定:
-   - 預算名稱 (Budget name):`Monthly-Cost-Alert`(自訂即可)
-   - 期間 (Period):選「每月 (Monthly)」
-   - 預算金額 (Budgeted amount):輸入 `50`(USD $50,可依實際需求調整)
-   - 貨幣預設為 USD,保持不變
+1. 在主控台頁面右上角,點擊您的**帳號名稱**
+2. 從下拉選單選擇「帳單與成本管理 (Billing and Cost Management)」
+3. 進入後,點擊左側選單的「Budgets」
+4. 您會看到如下圖的 Budgets 首頁
 
-   ![待補:Cost Budget 設定頁 (zh)](images/placeholder_03_budget_config_zh.webp)
-   ![待補:Cost Budget config page (en)](images/placeholder_03_budget_config_en.webp)
+![AWS Budgets 首頁,右上角有藍色「Create a budget」按鈕](images/03_budgets_overview.webp)
+*來源: [AWS Blog — Getting Started with AWS Budgets](https://aws.amazon.com/blogs/aws-cloud-financial-management/getting-started-with-aws-budgets/), 取用日期 2026-04-21*
 
-4. 點擊「下一步 (Next)」
+5. 點擊右上角橘色的「建立預算 (Create budget)」按鈕
 
 ---
 
-### 步驟 4:設定告警門檻 (Step 4: Set Alert Thresholds)
+### 步驟 3:選擇預算類型並填寫金額 (Step 3: Choose Budget Type & Amount)
 
-建議設定 **三個**門檻,分別在 50%、80%、100% 時告警:
+AWS 現在提供兩種設定方式:「簡化範本 (Use a template - simplified)」與「自訂 (Customize - advanced)」。建議選**簡化範本**,最快速。
 
-**第一個告警(50%)**
-1. 點擊「新增告警門檻 (Add alert threshold)」
-2. 門檻類型選「實際費用 (Actual)」
-3. 觸發條件:選「預算的 % (% of budget amount)」,填入 `50`
-4. 告警收件人 (Email recipients):填入您的 email,例如 `yourname@company.com`
-5. 點擊「新增 (Add)」
+1. 預算設定方式選「使用範本 (Use a template)」
+2. 範本選擇「每月花費預算 (Monthly cost budget)」
+3. 您會看到如下圖的設定畫面,只需填寫三個欄位:
 
-**重複上述步驟**,分別建立:
-- 80% 實際費用告警
-- 100% 實際費用告警
+![AWS Budgets 建立頁面,選擇「Monthly cost budget」範本後自動帶入基本設定](images/03_name_cost_budget.webp)
+*來源: [AWS Hands-on — Control Your Costs with AWS Budgets](https://docs.aws.amazon.com/hands-on/latest/control-your-costs-free-tier-budgets/control-your-costs-free-tier-budgets.html), 取用日期 2026-04-21*
 
-   ![待補:告警門檻設定 (zh)](images/placeholder_03_alert_threshold_zh.webp)
-   ![待補:Alert threshold setup (en)](images/placeholder_03_alert_threshold_en.webp)
+   - **預算名稱 (Budget name)**:填入 `Monthly-Cost-Alert`(可自訂,方便辨識即可)
+   - **預算金額 (Enter your budgeted amount)**:填入 `50`(代表 USD $50;可依實際情況調整)
+   - **收件 email (Email recipients)**:填入您的 email 地址
 
-6. 三個門檻都設定完後,點擊「下一步 (Next)」
+> 💡 **提醒**:USD $50 只是監控門檻,不會自動扣款或停用服務。建議先設一個偏低的金額,讓自己提早收到通知。
 
----
+若您想要更細緻的控制(例如分別針對不同服務設告警),可選擇「自訂 (Customize)」模式——但初次使用選範本就足夠了。
 
-### 步驟 5:確認並建立預算 (Step 5: Confirm & Create Budget)
+以下為自訂模式的「選擇預算類型 (Select budget type)」畫面供參考:
 
-1. 檢視摘要頁面,確認:
-   - 預算金額:USD $50 / 月
-   - 告警:50% / 80% / 100%
-   - 收件 email 正確
-2. 點擊「建立預算 (Create budget)」
+![自訂模式的預算類型選擇頁面:Cost budget、Usage budget、Reservation budget、Savings Plans budget](images/03_budget_step1.webp)
+*來源: [AWS Blog — Getting Started with AWS Budgets](https://aws.amazon.com/blogs/aws-cloud-financial-management/getting-started-with-aws-budgets/), 取用日期 2026-04-21*
 
-   ![待補:預算建立確認頁 (zh)](images/placeholder_03_budget_confirm_zh.webp)
-   ![待補:Budget creation confirm (en)](images/placeholder_03_budget_confirm_en.webp)
+自訂模式下設定預算名稱與金額的畫面:
 
-3. 畫面顯示「預算已建立 (Budget created)」表示成功
+![自訂模式設定預算名稱、期間(Monthly)、預算金額欄位](images/03_budget_step2.webp)
+*來源: [AWS Blog — Getting Started with AWS Budgets](https://aws.amazon.com/blogs/aws-cloud-financial-management/getting-started-with-aws-budgets/), 取用日期 2026-04-21*
+
+4. 填妥後點擊「建立預算 (Create budget)」
 
 ---
 
-### 步驟 6:啟用 Cost Explorer (Step 6: Enable Cost Explorer)
+### 步驟 4:確認告警門檻已設定 (Step 4: Verify Alert Thresholds)
 
-Cost Explorer 讓您用圖表看到每日、每月的花費趨勢。首次使用需手動啟用。
+使用範本建立的預算預設在費用達到預算 **85%** 與 **100%** 時發通知。若您想要更早收到通知(例如 50%),可在建立後進入預算設定頁修改。
 
-**AWS Budgets 產品頁(參考):**
+以下為告警設定的畫面(自訂模式):
 
-![AWS Budgets 英文版](images/03_budgets_en.webp)
-![AWS Budgets 中文版](images/03_budgets_zh.webp)
+![Alert 設定頁面:選擇 Actual Costs、填入百分比門檻(100%)、填入收件 email](images/03_budget_step3.webp)
+*來源: [AWS Blog — Getting Started with AWS Budgets](https://aws.amazon.com/blogs/aws-cloud-financial-management/getting-started-with-aws-budgets/), 取用日期 2026-04-21*
 
-**AWS Cost Explorer 產品頁(參考):**
+告警設定說明:
+- **告警依據 (Send alert based on)**:選「實際費用 (Actual Costs)」
+- **告警門檻 (%)**:例如填 `80` 代表當月花費達到 USD $40(80% × $50)時發 email
+- **收件人 (Email contacts)**:填入您的 email
 
-![AWS Cost Explorer 英文版](images/03_cost_explorer_en.webp)
-![AWS Cost Explorer 中文版](images/03_cost_explorer_zh.webp)
+---
+
+### 步驟 5:確認預算建立成功 (Step 5: Confirm Budget Created)
+
+建立後,畫面會出現綠色成功訊息:
+
+![預算建立成功畫面:「Your budget My Monthly Budget has been created successfully.」](images/03_create_budget.webp)
+*來源: [AWS Hands-on — Control Your Costs with AWS Budgets](https://docs.aws.amazon.com/hands-on/latest/control-your-costs-free-tier-budgets/control-your-costs-free-tier-budgets.html), 取用日期 2026-04-21*
+
+出現「**Your budget ___ has been created successfully.**」即代表完成。
+
+此後可在 Budgets 總覽頁看到您建立的預算與目前使用狀況:
+
+![Budgets 總覽頁面,列出所有預算名稱、類型、當前金額與預測金額](images/03_budget_step4.webp)
+*來源: [AWS Blog — Getting Started with AWS Budgets](https://aws.amazon.com/blogs/aws-cloud-financial-management/getting-started-with-aws-budgets/), 取用日期 2026-04-21*
+
+---
+
+### 步驟 6:啟用 Cost Explorer(費用趨勢圖) (Step 6: Enable Cost Explorer)
+
+Cost Explorer 是 AWS 免費提供的費用分析工具,讓您用圖表看到每天、每月的花費走勢。啟用一次即可,之後每天自動更新。
+
+以下是 Cost Explorer 服務的簡介頁面:
+
+![AWS Cost Explorer 產品頁,說明可視覺化呈現、追蹤 AWS 費用與用量](images/03_cost_explorer_en.webp)
+*來源: [AWS Cost Explorer 產品頁](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/), 取用日期 2026-04-21*
 
 操作步驟:
-1. 在左側選單點擊「Cost Explorer」
-2. 若尚未啟用,頁面會顯示啟用按鈕
-3. 點擊「啟用 Cost Explorer (Enable Cost Explorer)」
-4. 等待約 24 小時,歷史數據才會完整顯示(正常現象)
+1. 在「帳單與成本管理 (Billing and Cost Management)」左側選單,找到「**Cost Explorer**」
+2. 左側選單的樣子如下圖(「Cost Explorer」位於「Cost and Usage Analysis」區塊下方):
 
-   ![待補:啟用 Cost Explorer 頁面 (zh)](images/placeholder_03_cost_explorer_enable_zh.webp)
-   ![待補:Enable Cost Explorer page (en)](images/placeholder_03_cost_explorer_enable_en.webp)
+   ![帳單主控台左側導覽列,其中可見 Cost Explorer 連結位於「Cost and Usage Analysis」分區](images/03_confirm_credits.webp)
+   *來源: [AWS Hands-on — Control Your Costs with AWS Budgets](https://docs.aws.amazon.com/hands-on/latest/control-your-costs-free-tier-budgets/control-your-costs-free-tier-budgets.html), 取用日期 2026-04-21*
 
----
-
-### 步驟 7:啟用免費方案使用告警 (Step 7: Enable Free Tier Usage Alerts)
-
-1. 在左側選單點擊「帳單偏好設定 (Billing preferences)」
-2. 找到「免費方案使用告警 (Free Tier usage alerts)」
-3. 勾選「接收免費方案告警 email (Receive Free Tier usage alerts)」
-4. 確認 email 地址正確
-5. 點擊「更新 (Update)」儲存
-
-   ![待補:Billing preferences 免費方案告警 (zh)](images/placeholder_03_freetier_alert_zh.webp)
-   ![待補:Free Tier usage alert setting (en)](images/placeholder_03_freetier_alert_en.webp)
+3. 點擊「Cost Explorer」進入頁面
+4. 若尚未啟用,頁面會顯示「啟用 Cost Explorer (Enable Cost Explorer)」按鈕,點擊一次即可
+5. 啟用後約需 **24 小時**才會顯示完整歷史數據,這是正常現象
 
 ---
 
-## 完成後請回報 / Deliverables to Send Us
+### 步驟 7:開啟 Free Tier 使用告警 (Step 7: Enable Free Tier Usage Alerts)
 
-操作完成後,請截圖以下畫面,透過安全管道(1Password / Bitwarden / ProtonMail)傳給我們:
+AWS 新帳號有 12 個月的免費方案(Free Tier),讓您在限額內免費使用部分服務。開啟告警後,一旦快要超出免費額度就會發 email 提醒您。
 
-1. **Budgets 建立成功頁面**截圖(顯示預算名稱與金額)
-2. **告警 email**截圖(AWS 會在建立後發送測試通知;若未收到,請在 Budgets 頁面手動觸發)
-3. 確認您的**收告警 email 地址**
+![AWS Free Tier 說明頁:「Gain free, hands-on experience with AWS products and services」](images/03_freetier_homepage.webp)
+*來源: [AWS Free Tier 頁面](https://aws.amazon.com/free/), 取用日期 2026-04-21*
 
-**請勿**透過 LINE、Slack 明文、或普通 email 傳送帳號密碼。截圖本身不含敏感資訊,可正常傳送。
+操作步驟:
+1. 在「帳單與成本管理 (Billing and Cost Management)」左側選單,點擊「**帳單偏好設定 (Billing preferences)**」
+2. 找到「**免費方案告警 (Free Tier usage alerts)**」區塊
+3. 勾選「接收免費方案 email 告警 (Receive Free Tier usage alerts)」
+4. 確認下方顯示的 email 地址正確
+5. 點擊頁面底部「**更新 (Update)**」或「**儲存偏好設定 (Save preferences)**」
+
+> 💡 若畫面找不到「Billing preferences」,請寄信告訴我們,我們協助您找到位置。
 
 ---
 
-## 檢核清單 / Checklist
+## 完成後請提供以下資訊 / Please Send Us
 
-助理操作完後,逐項打勾,將本清單截圖回傳:
+操作完成後,麻煩您把以下資訊傳給我們(用安全管道:1Password / Bitwarden / ProtonMail 加密信):
 
-- [ ] 已確認使用 `aws.amazon.com`(網址列無 `.cn`)
-- [ ] 已建立月預算 USD $50(或自訂金額)Cost budget
-- [ ] 已設定 50% 告警,收件 email 正確
-- [ ] 已設定 80% 告警,收件 email 正確
-- [ ] 已設定 100% 告警,收件 email 正確
-- [ ] 已成功建立預算(畫面顯示「Budget created」)
+1. **Budgets 建立成功的截圖**:畫面顯示預算名稱與金額
+2. **您設定告警通知的 email 地址**(確認我們日後若有異常可通知到您)
+
+截圖本身不含帳號密碼等敏感資訊,可直接用一般 email 傳給我們:
+📧 lifetreemastery@gmail.com
+
+**若不確定如何安全傳送,來信告訴我們,我們會提供 1Password 共享連結。**
+
+---
+
+## 操作確認清單 / Checklist
+
+完成後逐項確認,有疑問的地方來信即可:
+
+- [ ] 已確認登入的是 `console.aws.amazon.com`(網址無 `.cn`)
+- [ ] 已在 Budgets 建立至少一個月預算(Cost budget)
+- [ ] 已設定預算金額(建議 USD $50 或符合您需求的金額)
+- [ ] 已填入正確的告警收件 email
+- [ ] 畫面已顯示「Budget created successfully」綠色訊息
 - [ ] 已啟用 Cost Explorer
-- [ ] 已勾選 Free Tier usage alerts
-- [ ] 已將告警 email 截圖傳給我方
+- [ ] 已在 Billing preferences 勾選「Free Tier usage alerts」
+- [ ] 已將建立成功截圖與告警 email 傳給我們
 
 ---
 
 ## 常見問題 / FAQ
 
-**Q: 設 USD $50 會不會真的扣款?**
-A: 不會。預算只是「監控門檻」,達到後發 email 通知,**不會自動停用服務或扣款**。您仍需手動處理。
+**Q:設 USD $50 的預算,AWS 會真的扣我 $50 嗎?**
+A:不會。預算只是一個「監控門檻」,達到後發 email 通知您,**不會自動停用服務,也不會額外扣款**。實際費用取決於您(或我們)實際使用的資源量。
 
-**Q: 我沒收到測試 email,是設定錯了嗎?**
-A: 請先檢查垃圾郵件夾。AWS 告警 email 寄件人為 `no-reply@budgets.amazonaws.com`,部分郵件系統會過濾。確認 email 地址無誤後,可在 Budgets 頁面重新觸發。
+**Q:我沒收到 AWS 的告警 email,是哪裡錯了?**
+A:請先查看垃圾郵件夾。AWS 告警 email 寄件人為 `no-reply@budgets.amazonaws.com`,部分郵件系統可能過濾。確認 email 地址填寫無誤後,可進入 Budgets 頁面重新確認設定。
 
-**Q: Cost Explorer 開啟後為什麼沒有數據?**
-A: 首次啟用後需等待最多 24 小時,AWS 才會匯入歷史費用數據。這是正常現象。
+**Q:Cost Explorer 開啟後為什麼沒有數據?**
+A:這是正常現象。首次啟用後需等待最多 **24 小時**,AWS 才會匯入歷史費用數據。
 
-**Q: 免費方案使用告警在哪裡設定?**
-A: 帳單主控台 → 左側選單「帳單偏好設定 (Billing preferences)」→ 找到「Free Tier usage alerts」區塊。
+**Q:Free Tier 已過 12 個月,還需要設告警嗎?**
+A:仍建議保留 Budgets 告警。即使免費方案到期,告警依然有效,可持續監控月費用是否超過您的預期。
 
-**Q: 我已超出免費方案額度但費用很小,需要擔心嗎?**
-A: 少量費用(如每月 USD $1 以下)通常是 EC2 或 S3 的少量使用。建議設定告警後持續觀察,並確認沒有意外啟動的資源。
+**Q:我想設多個告警(例如 50%、80%、100%)怎麼做?**
+A:進入 Budgets 頁面 → 點擊您建立的預算名稱 → 點擊右上角「編輯 (Edit budget)」→ 在「Alert thresholds」區塊新增多筆告警門檻即可。
 
-**Q: 可以設定多個預算嗎?**
-A: 可以。AWS Budgets 前 2 個免費,超過 2 個每個 USD $0.02/天。建議新手先建 1 個月預算告警即可。
-
----
-
-## 出問題時 / If Something Goes Wrong
-
-請聯絡:lifetreemastery@gmail.com
-
-回信時請附上:
-- 錯誤訊息截圖
-- 您操作到哪一步
-- 您的 AWS 帳號 email(不要附密碼)
+**Q:看不懂某個英文按鈕?**
+A:直接截圖寄給我們(lifetreemastery@gmail.com),我們立刻告訴您要按哪裡。
 
 ---
 
-## 待補截圖 / Placeholder Screenshots
+## 遇到問題聯絡我們 / If Something Goes Wrong
 
-以下為 Console 內頁截圖,需登入操作後補充:
+📧 **lifetreemastery@gmail.com**
 
-| Placeholder 檔名 | 對應步驟 | 說明 |
-|---|---|---|
-| `placeholder_03_billing_menu_zh.webp` | 步驟 2 | 帳號下拉選單中文版 |
-| `placeholder_03_billing_menu_en.webp` | 步驟 2 | Account dropdown menu 英文版 |
-| `placeholder_03_budgets_console_zh.webp` | 步驟 2 | Budgets 主控台頁面中文版 |
-| `placeholder_03_budgets_console_en.webp` | 步驟 2 | Budgets landing page 英文版 |
-| `placeholder_03_budget_config_zh.webp` | 步驟 3 | Cost Budget 設定頁中文版 |
-| `placeholder_03_budget_config_en.webp` | 步驟 3 | Cost Budget config page 英文版 |
-| `placeholder_03_alert_threshold_zh.webp` | 步驟 4 | 告警門檻設定頁中文版 |
-| `placeholder_03_alert_threshold_en.webp` | 步驟 4 | Alert threshold setup 英文版 |
-| `placeholder_03_budget_confirm_zh.webp` | 步驟 5 | 預算建立確認頁中文版 |
-| `placeholder_03_budget_confirm_en.webp` | 步驟 5 | Budget creation confirm 英文版 |
-| `placeholder_03_cost_explorer_enable_zh.webp` | 步驟 6 | 啟用 Cost Explorer 頁面中文版 |
-| `placeholder_03_cost_explorer_enable_en.webp` | 步驟 6 | Enable Cost Explorer 英文版 |
-| `placeholder_03_freetier_alert_zh.webp` | 步驟 7 | Free Tier 告警設定中文版 |
-| `placeholder_03_freetier_alert_en.webp` | 步驟 7 | Free Tier alert setting 英文版 |
+來信時請附上:
+- 錯誤訊息或卡住步驟的截圖
+- 您操作到哪一個步驟
+- 您的 AWS 帳號 email(不需要密碼)
+
+我們會儘快回覆協助您。
+
+---
+
+再次感謝您協助完成這部分的設定!帳單告警設定好之後,往後系統若有異常費用,您和我們都能第一時間收到通知。接下來我們會接手後續的部署工作,不會再麻煩您太多。

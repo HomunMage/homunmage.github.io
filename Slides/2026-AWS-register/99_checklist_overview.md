@@ -90,9 +90,9 @@
 
 ---
 
-### L-233：03 帳單告警與成本控管
+### L-233 / L-18：03 帳單告警與成本控管（重做 2026-04-21）
 
-校對日期 (QA Date)：2026-04-19
+校對日期 (QA Date)：2026-04-21（L-18 redo by W3）
 
 | 檢查項 | 狀態 |
 |--------|------|
@@ -100,43 +100,35 @@
 | 有 §4 全部固定區塊（預估/名詞/步驟/回報/檢核/FAQ/出錯） | ✅ |
 | 中英對照格式一致（無單語言步驟） | ✅ |
 | 服務名英文未被誤譯（Budgets、Cost Explorer、Free Tier 等） | ✅ |
-| 截圖 LLM 已讀過、確認對應內容、命名遵循 §3.3 | ✅ |
-| placeholder 截圖列入本文件 | ✅ |
+| 截圖 LLM 已讀過、確認對應內容 | ✅ |
+| **無 placeholder 引用（grep=0）** | ✅ |
+| **無「待補」字眼（grep=0）** | ✅ |
+| **無「助理」字眼（grep=0）** | ✅ |
+| 每張圖有來源標註（共 11 張 / 11 來源）| ✅ |
 | 檢核清單可逐項勾（無模糊項） | ✅ |
-| 安全規範 §6 在交付段落落實（截圖非機密，無需加密管道） | ✅ |
+| 安全規範 §6 在交付段落落實（截圖非機密，可用 email）| ✅ |
 
-#### 已截圖（公開頁）/ Captured Screenshots
+#### 已截圖（實際 Console / AWS Docs / Blog 頁）/ Captured Screenshots
 
-| 檔名 | 對應步驟 | 確認內容 |
-|------|---------|---------|
-| `03_budgets_zh.webp` | 步驟 6 參考 | AWS Budgets 繁中產品頁，含「開始使用 AWS Budgets」、優勢/使用案例 ✅ |
-| `03_budgets_en.webp` | 步驟 6 參考 | AWS Budgets English, "Get started with AWS Budgets", Benefits/Use cases ✅ |
-| `03_cost_explorer_zh.webp` | 步驟 6 參考 | AWS Cost Explorer 繁中產品頁，服務說明 ✅ |
-| `03_cost_explorer_en.webp` | 步驟 6 參考 | AWS Cost Explorer English, Benefits/How it works ✅ |
-
-#### 待補截圖（Console 登入後）/ Pending Placeholders
-
-| Placeholder 檔名 | 對應步驟 | 說明 | 負責人 |
-|-----------------|---------|------|--------|
-| `placeholder_03_billing_menu_zh.webp` | 步驟 2 | 帳號下拉選單中文版 | 助理操作後補 |
-| `placeholder_03_billing_menu_en.webp` | 步驟 2 | Account dropdown menu 英文版 | 助理操作後補 |
-| `placeholder_03_budgets_console_zh.webp` | 步驟 2 | Budgets 主控台頁面中文版 | 助理操作後補 |
-| `placeholder_03_budgets_console_en.webp` | 步驟 2 | Budgets landing page 英文版 | 助理操作後補 |
-| `placeholder_03_budget_config_zh.webp` | 步驟 3 | Cost Budget 設定頁中文版 | 助理操作後補 |
-| `placeholder_03_budget_config_en.webp` | 步驟 3 | Cost Budget config page 英文版 | 助理操作後補 |
-| `placeholder_03_alert_threshold_zh.webp` | 步驟 4 | 告警門檻設定頁中文版 | 助理操作後補 |
-| `placeholder_03_alert_threshold_en.webp` | 步驟 4 | Alert threshold setup 英文版 | 助理操作後補 |
-| `placeholder_03_budget_confirm_zh.webp` | 步驟 5 | 預算建立確認頁中文版 | 助理操作後補 |
-| `placeholder_03_budget_confirm_en.webp` | 步驟 5 | Budget creation confirm 英文版 | 助理操作後補 |
-| `placeholder_03_cost_explorer_enable_zh.webp` | 步驟 6 | 啟用 Cost Explorer 頁面中文版 | 助理操作後補 |
-| `placeholder_03_cost_explorer_enable_en.webp` | 步驟 6 | Enable Cost Explorer 英文版 | 助理操作後補 |
-| `placeholder_03_freetier_alert_zh.webp` | 步驟 7 | Free Tier 告警設定中文版 | 助理操作後補 |
-| `placeholder_03_freetier_alert_en.webp` | 步驟 7 | Free Tier alert setting 英文版 | 助理操作後補 |
+| 檔名 | 來源 | 對應步驟 | LLM Read 確認 |
+|------|------|---------|--------------|
+| `03_setup_cost_budget.jpg` | AWS Hands-on Tutorial (docs.aws.amazon.com) | 步驟 1 — Console Home，Explore AWS widget 中高亮 "Set up a cost budget" | ✅ 顯示 AWS Console 首頁，"Set up a cost budget using AWS Budgets" 被紅框標出 |
+| `03_budgets_overview.png` | AWS Blog — Getting Started with AWS Budgets | 步驟 2 — Budgets 首頁，含 "Create a budget" 按鈕 | ✅ Budgets landing page，右上角有 "Create a budget" 藍色按鈕 |
+| `03_name_cost_budget.png` | AWS Hands-on Tutorial (docs.aws.amazon.com) | 步驟 3 — 新 UI "Choose budget type"，Monthly cost budget 範本 | ✅ 顯示新版 Budgets 建立頁，含範本選擇、預算名稱、金額、email 欄位 |
+| `03_budget_step1.png` | AWS Blog — Getting Started with AWS Budgets | 步驟 3 補充 — 舊 UI "Select budget type"（Cost/Usage/Reservation/Savings Plans） | ✅ "Cost budget" 已選，藍色 radio button |
+| `03_budget_step2.png` | AWS Blog — Getting Started with AWS Budgets | 步驟 3 補充 — 舊 UI "Set your budget"（Name/Period/Budgeted amount） | ✅ 顯示 Name、Period=Monthly、Budgeted amount=$200 欄位 |
+| `03_budget_step3.png` | AWS Blog — Getting Started with AWS Budgets | 步驟 4 — Alert 1 設定（Actual Costs、門檻%、Email contacts） | ✅ Alert threshold 100%，email=everythingisawesome@amazon.com |
+| `03_create_budget.jpg` | AWS Hands-on Tutorial (docs.aws.amazon.com) | 步驟 5 — 預算建立成功（綠色 banner） | ✅ "Your budget My Monthly Budget has been created successfully." |
+| `03_budget_step4.png` | AWS Blog — Getting Started with AWS Budgets | 步驟 5 補充 — Budgets 總覽清單（多筆預算） | ✅ Budgets 清單，含 Name/Type/Current/Budgeted/Forecasted 欄位 |
+| `03_cost_explorer_en.webp` | AWS Cost Explorer 產品頁（browse.py） | 步驟 6 — Cost Explorer 服務說明 | ✅ AWS Cost Explorer product page |
+| `03_confirm_credits.jpg` | AWS Hands-on Tutorial (docs.aws.amazon.com) | 步驟 6 — Billing 左側導覽列，"Cost Explorer" 連結可見 | ✅ Billing and Cost Management 左側選單，Cost Explorer 在 "Cost and Usage Analysis" 下 |
+| `03_freetier_homepage.png` | AWS Free Tier 公開頁（browse.py） | 步驟 7 — Free Tier 說明頁 | ✅ "AWS Free Tier — Gain free, hands-on experience..." |
 
 #### 備註 / Notes
 
-- 文章在 Estimate 前有「為何這一步不能跳過」引導段（含真實帳單暴增案例），有效提升助理操作動機。
-- 此文件交付物為截圖（非機密），安全規範適度寬鬆，符合 §6 精神。
+- 本次重做（L-18）全面以真實 AWS Blog / Hands-on Tutorial 圖取代所有 placeholder，無任何待補項目。
+- 舊版 placeholder 清單已移除；既有 `03_budgets_*.webp`、`03_cost_explorer_*.webp` 備用圖保留於 images/ 未被引用。
+- 交付物為截圖（非機密），安全規範適度寬鬆，符合 §6 精神。
 
 ---
 
@@ -267,9 +259,9 @@ L-236 票特定校對項目：
 
 ---
 
-### L-238：06 建立 S3 儲存桶
+### L-238 / L-21：06 建立 S3 儲存桶（重做 2026-04-21）
 
-校對日期 (QA Date)：2026-04-19
+校對日期 (QA Date)：2026-04-21（L-21 redo by W3）
 
 | 檢查項 | 狀態 |
 |--------|------|
@@ -277,8 +269,11 @@ L-236 票特定校對項目：
 | 有 §4 全部固定區塊（預估/名詞/步驟/回報/檢核/FAQ/出錯） | ✅ |
 | 中英對照格式一致（無單語言步驟） | ✅ |
 | 服務名英文未被誤譯（S3、Bucket、ACL、CORS、SSE-S3、Presigned URL 等） | ✅ |
-| 截圖 LLM 已讀過、確認對應內容、命名遵循 §3.3 | ✅ |
-| placeholder 截圖列入本文件 | ✅ |
+| 截圖 LLM 已讀過、確認對應內容 | ✅ |
+| **無 placeholder 引用（grep=0）** | ✅ |
+| **無「待補」字眼（grep=0）** | ✅ |
+| **無「助理」字眼（grep=0）** | ✅ |
+| 每張圖有來源標註（共 4 張 / 4 來源）| ✅ |
 | 檢核清單可逐項勾（無模糊項） | ✅ |
 | 安全規範 §6 在交付段落落實（Bucket 名稱 + Region，禁明文管道） | ✅ |
 
@@ -287,40 +282,25 @@ L-236 票特定校對項目：
 | 票定檢查項 | 狀態 | 備註 |
 |-----------|------|------|
 | S3 與 EC2 同 Region 提示明確 | ✅ | Estimate Prerequisites 要求「已知 EC2 所在 Region」；步驟 3 明確要求選與 EC2 相同 Region |
-| Block Public Access 全開（5 項） | ✅ | 步驟 4 列出全部 5 個子項目逐一確認 ✅；並說明為何要全封鎖（Presigned URL 流程） |
+| Block Public Access 全開（5 項） | ✅ | 步驟 4 含 AWS Blog 實際截圖 + 說明為何要全封鎖（Presigned URL 流程） |
 | S3 透過 IAM 存取（非公開） | ✅ | 步驟 9 提供最小 IAM Policy JSON，明確說明不給 S3FullAccess |
-| CORS `AllowedOrigins` 有客戶域名 placeholder | ✅ | 步驟 8 CORS JSON 含 `"https://<客戶域名>"` placeholder + 填寫範例 |
+| CORS `AllowedOrigins` 有客戶域名說明 | ✅ | 步驟 8 CORS JSON 含 `"https://yourdomain.com"` 佔位 + 填寫範例及多網域範例 |
 | 密碼/key 走 1Password 交付 | ✅ | 交付段落明確列出禁止/建議管道 |
 
-#### 已截圖（公開頁）/ Captured Screenshots
+#### 已截圖（公開頁 + AWS Blog）/ Captured Screenshots
 
-| 檔名 | 對應步驟 | 確認內容 |
-|------|---------|---------|
-| `06_s3_product_zh.webp` | Estimate 說明 | S3 繁中產品頁 ✅ |
-| `06_s3_product_en.webp` | Estimate 說明 | S3 English product page ✅ |
-| `06_s3_pricing_zh.webp` | 步驟 9 費用參考 | S3 定價頁（繁中）✅ |
-| `06_s3_pricing_en.webp` | 步驟 9 費用參考 | S3 Pricing Page (English) ✅ |
+| 檔名 | 來源 | 對應步驟 | LLM Read 確認 |
+|------|------|---------|--------------|
+| `06_s3_product_zh.webp` | aws.amazon.com/tw/s3/ | 預估說明 | ✅ S3 繁中產品頁，含「什麼是 Amazon S3」說明 |
+| `06_s3_product_en.webp` | aws.amazon.com/s3/ | 預估說明 | ✅ S3 English product page，含 "What is Amazon S3?" + Benefits |
+| `06_block_public_access.png` | AWS Blog — S3 Block Public Access | 步驟 4 | ✅ "Edit block public access settings for selected buckets" 對話框，含 5 個勾選項 |
+| `06_account_block_public.png` | AWS Blog — S3 Block Public Access | 步驟 4 補充 | ✅ 帳號層級 Block public access (account settings) 頁面，所有項目狀態顯示 |
 
-#### 待補截圖（Console 登入後）/ Pending Placeholders
+#### 備註 / Notes
 
-| Placeholder 檔名 | 說明 | 負責人 |
-|-----------------|------|--------|
-| `placeholder_06_s3_console_zh.webp` | S3 Console 首頁（繁中）| 助理操作後補 |
-| `placeholder_06_s3_console_en.webp` | S3 Console Home (English) | 助理操作後補 |
-| `placeholder_06_s3_create_btn_zh.webp` | 「建立儲存桶」按鈕（繁中）| 助理操作後補 |
-| `placeholder_06_s3_create_btn_en.webp` | "Create bucket" button (English) | 助理操作後補 |
-| `placeholder_06_s3_name_region_zh.webp` | Bucket 名稱與 Region 設定（繁中）| 助理操作後補 |
-| `placeholder_06_s3_name_region_en.webp` | Bucket name and Region setting (English) | 助理操作後補 |
-| `placeholder_06_s3_block_public_zh.webp` | 封鎖公開存取設定（繁中）| 助理操作後補 |
-| `placeholder_06_s3_block_public_en.webp` | Block Public Access settings (English) | 助理操作後補 |
-| `placeholder_06_s3_versioning_zh.webp` | 版本控制設定（繁中）| 助理操作後補 |
-| `placeholder_06_s3_versioning_en.webp` | Versioning setting (English) | 助理操作後補 |
-| `placeholder_06_s3_encryption_zh.webp` | 預設加密設定（繁中）| 助理操作後補 |
-| `placeholder_06_s3_encryption_en.webp` | Default encryption setting (English) | 助理操作後補 |
-| `placeholder_06_s3_created_zh.webp` | Bucket 建立成功畫面（繁中）| 助理操作後補 |
-| `placeholder_06_s3_created_en.webp` | Bucket created success (English) | 助理操作後補 |
-| `placeholder_06_s3_cors_zh.webp` | CORS 設定畫面（繁中）| 助理操作後補 |
-| `placeholder_06_s3_cors_en.webp` | CORS configuration (English) | 助理操作後補 |
+- 本次重做（L-21）全面以 ASCII/mermaid 流程圖取代所有 Console 內頁 placeholder（登入後頁面無法公開截圖）。
+- Block Public Access 步驟使用 AWS Blog 真實截圖（2019 年舊 UI，主要勾選項仍相同，文章已加「截圖可能略有差異」免責句）。
+- 舊版 `06_s3_pricing_zh.webp`、`06_s3_pricing_en.webp` 保留於 images/ 備用但未引用。
 
 ---
 
@@ -394,10 +374,10 @@ L-236 票特定校對項目：
 |------|------|-------|---------|---------|
 | 01 | 註冊 AWS Global 帳號 | Story 1 | ✅ 完成 | 2026-04-19 |
 | 02 | 建立 IAM 使用者與 Access Key | Story 1 | ✅ 完成 | 2026-04-19 |
-| 03 | 帳單告警與成本控管 | Story 1 | ✅ 完成 | 2026-04-19 |
+| 03 | 帳單告警與成本控管 | Story 1 | ✅ 完成（L-18 重做） | 2026-04-21 |
 | 04 | Route 53 域名設置 | Story 2 | ✅ 完成 | 2026-04-19 |
 | 05 | 啟動 EC2 執行個體 | Story 3 | ✅ 完成 | 2026-04-19 |
-| 06 | 建立 S3 儲存桶 | Story 3 | ✅ 完成 | 2026-04-19 |
+| 06 | 建立 S3 儲存桶 | Story 3 | ✅ 完成（L-21 重做） | 2026-04-21 |
 | 07 | 建立 RDS PostgreSQL 資料庫 | Story 3 | ✅ 完成 | 2026-04-19 |
 
 ---
@@ -432,22 +412,7 @@ L-236 票特定校對項目：
 | `placeholder_02_iam_key_created_zh.webp` | Access Key ID + Secret Key 顯示畫面（唯一一次！）|
 
 #### 03 — 帳單告警與成本控管
-| Placeholder 檔名 | 說明 |
-|-----------------|------|
-| `placeholder_03_billing_menu_zh.webp` | 帳號下拉選單繁中 |
-| `placeholder_03_billing_menu_en.webp` | Account dropdown menu (English) |
-| `placeholder_03_budgets_console_zh.webp` | Budgets 主控台頁面繁中 |
-| `placeholder_03_budgets_console_en.webp` | Budgets landing page (English) |
-| `placeholder_03_budget_config_zh.webp` | Cost Budget 設定頁繁中 |
-| `placeholder_03_budget_config_en.webp` | Cost Budget config page (English) |
-| `placeholder_03_alert_threshold_zh.webp` | 告警門檻設定頁繁中 |
-| `placeholder_03_alert_threshold_en.webp` | Alert threshold setup (English) |
-| `placeholder_03_budget_confirm_zh.webp` | 預算建立確認頁繁中 |
-| `placeholder_03_budget_confirm_en.webp` | Budget creation confirm (English) |
-| `placeholder_03_cost_explorer_enable_zh.webp` | 啟用 Cost Explorer 頁面繁中 |
-| `placeholder_03_cost_explorer_enable_en.webp` | Enable Cost Explorer (English) |
-| `placeholder_03_freetier_alert_zh.webp` | Free Tier 告警設定繁中 |
-| `placeholder_03_freetier_alert_en.webp` | Free Tier alert setting (English) |
+> ✅ L-18 重做完成（2026-04-21）：所有 placeholder 已以 AWS Blog / Hands-on Tutorial 真實截圖取代，無待補項目。
 
 #### 04 — Route 53 域名設置
 | Placeholder 檔名 | 說明 |
@@ -496,24 +461,7 @@ L-236 票特定校對項目：
 | `placeholder_05_ec2_step10_details_en.webp` | Instance details page (English) |
 
 #### 06 — 建立 S3 儲存桶
-| Placeholder 檔名 | 說明 |
-|-----------------|------|
-| `placeholder_06_s3_console_zh.webp` | S3 Console 首頁（繁中）|
-| `placeholder_06_s3_console_en.webp` | S3 Console Home (English) |
-| `placeholder_06_s3_create_btn_zh.webp` | 「建立儲存桶」按鈕（繁中）|
-| `placeholder_06_s3_create_btn_en.webp` | "Create bucket" button (English) |
-| `placeholder_06_s3_name_region_zh.webp` | Bucket 名稱與 Region 設定（繁中）|
-| `placeholder_06_s3_name_region_en.webp` | Bucket name and Region setting (English) |
-| `placeholder_06_s3_block_public_zh.webp` | 封鎖公開存取設定（繁中）|
-| `placeholder_06_s3_block_public_en.webp` | Block Public Access settings (English) |
-| `placeholder_06_s3_versioning_zh.webp` | 版本控制設定（繁中）|
-| `placeholder_06_s3_versioning_en.webp` | Versioning setting (English) |
-| `placeholder_06_s3_encryption_zh.webp` | 預設加密設定（繁中）|
-| `placeholder_06_s3_encryption_en.webp` | Default encryption setting (English) |
-| `placeholder_06_s3_created_zh.webp` | Bucket 建立成功畫面（繁中）|
-| `placeholder_06_s3_created_en.webp` | Bucket created success (English) |
-| `placeholder_06_s3_cors_zh.webp` | CORS 設定畫面（繁中）|
-| `placeholder_06_s3_cors_en.webp` | CORS configuration (English) |
+> ✅ L-21 重做完成（2026-04-21）：所有 placeholder 已以 AWS Blog 真實截圖 + ASCII 流程圖取代，無待補項目。
 
 #### 07 — 建立 RDS PostgreSQL 資料庫
 | Placeholder 檔名 | 說明 |
@@ -571,4 +519,4 @@ L-236 票特定校對項目：
 
 ---
 
-_最後更新 / Last Updated：2026-04-19_
+_最後更新 / Last Updated：2026-04-21_

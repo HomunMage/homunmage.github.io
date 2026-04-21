@@ -4,11 +4,22 @@
 
 ---
 
-## 0. 受眾與目的
+## 0. 受眾與目的(**極重要**,寫錯整篇 reject)
 
-- **讀者**:客戶的助理。完全不懂 AWS、不懂雲端、只會操作信用卡與按按鈕。
-- **目的**:讓對方獨立完成 AWS 帳號註冊、域名、EC2、S3、RDS 設置,最後交付 IAM Access Key 給我們以部署 lattice-cast。
-- **語氣**:像對長輩說明,每一步都要可執行、可勾選、可回報。
+- **讀者**:**我方客戶**。他們不懂程式、不懂 AWS、不懂雲端。
+- **關係**:他們是在**幫我們**把 AWS 環境架起來,再把 Access Key 交給我們部署 lattice-cast。**我們是求他們協助的一方**,不是在分派工作給下屬。
+- **語氣**:
+  - 像寫「感謝您幫忙,以下是流程」的 onboarding 信
+  - 禮貌、簡單、白話、每個技術名詞第一次出現要解釋
+  - **不可**用命令式(「請助理截圖補上」「助理需做 X」這類通通刪)
+  - **不可**稱呼「助理」,改用「您」或客戶姓名占位「{{客戶稱呼}}」
+  - 表達感謝(開頭一句、結尾一句)
+  - 口吻示範:
+    - ✅「感謝您協助設定這部分,只需要 10 分鐘,照下方步驟即可」
+    - ✅「這個欄位 AWS 的介面有時會略不同,若找不到,來信告訴我們,我們協助您」
+    - ❌「請助理點擊 X」「完成後助理回傳 Y」
+- **非技術化**:用日常比喻(「Region 就像選一個機房城市」「IAM 使用者就像在 AWS 幫我們開一個專用帳號」)
+- **禁止**:要求對方做任何「截圖給我們」之外的非必要動作(他們不是我們的助理)
 
 ---
 
@@ -84,12 +95,30 @@ images/
   ...
 ```
 
-### 3.4 待補截圖
-Console 內頁無法登入截,使用 placeholder:
+### 3.4 找不到合適圖時 — **絕不留 placeholder**
+
+**禁止**寫「待補截圖」「請助理截圖補上」這類字眼。文件是給對方**預讀預習**用,所有圖必須我方備齊。
+
+替代方案(任一):
+- (a) **WebFetch AWS 官方 Getting Started / docs / Blog**,從 HTML 抓 `<img>` URL,curl 下載到 `images/`
+- (b) 改截 AWS 該服務的 marketing/pricing 頁(`browse.py screenshot`),內文寫「以下為產品頁示意」
+- (c) 用 mermaid / ASCII 畫流程示意圖代替
+- (d) 引用第三方教學 blog 圖(註明來源 + 取用日期 + 原作者)
+
+**圖片下方必標來源**,範例:
 ```markdown
-![待補:EC2 Launch Wizard 第 2 步 (zh)](images/placeholder_05_ec2_step2_zh)
+![EC2 啟動精靈](images/05_ec2_launch_wizard.webp)
+*來源: [AWS Docs — Get started with Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html), 取用日期 2026-04-20*
 ```
-校對票會列出所有 placeholder 清單給助理操作時補。
+
+**過時 OK**:即使 AWS 改版 UI,只要主要按鈕/欄位仍可辨認即可,文章開頭加一句「截圖可能因 AWS 介面更新略有差異,以實際畫面為準」。
+
+### 3.5 圖片來源優先順序
+1. `docs.aws.amazon.com/<service>/...` — 官方文件,授權清楚
+2. `aws.amazon.com/blogs/...` — AWS Blog
+3. `aws.amazon.com/getting-started/...` — Hands-on 教學
+4. AWS 公開頁(產品/定價/註冊著陸頁)用 browse.py 自截
+5. 第三方 blog(Medium、TutorialsPoint、AWS Hero blogs)— 註明出處
 
 ---
 
@@ -100,59 +129,74 @@ Console 內頁無法登入截,使用 placeholder:
 ```markdown
 # <NN> - <繁中標題> / <English Title>
 
-> ⚠️ **重要警告 / Critical Warning**
-> (見 §1 警告區塊原文)
+您好 {{客戶稱呼}},感謝您協助我們設定 AWS!以下是這部分的操作說明,遇到任何不清楚的地方都可以來信詢問,我們會協助您。
+
+> 💡 **貼心提醒**:截圖可能因 AWS 介面更新略有差異,以實際畫面為準。若畫面找不到按鈕,請寄信告訴我們,我們立刻協助。
+
+> ⚠️ **重要:請勿使用 AWS 中國區**
+> 註冊請使用 `aws.amazon.com`。若頁面出現「中國區 / 光環新網 / 西雲 / Sinnet / NWCD」字樣,請關閉視窗從 `aws.amazon.com` 重新進入。
+> (中國區是另一個獨立服務,與我們要的系統不相容。)
 
 ## 預估 / Estimate
-- 時間 (Time):約 XX 分鐘
-- 費用 (Cost):USD $X / 月,或免費方案說明
-- 需準備 (Prerequisites):
-  - 信用卡(VISA / Master,需可付外幣)
-  - email 信箱(建議用公司 email,非 Gmail)
+- 時間:約 XX 分鐘
+- 費用:USD $X / 月,或免費方案可用 Y 個月
+- 需準備:
+  - 信用卡(VISA / Master / JCB,能付美元即可)
+  - email 信箱
   - 手機(收驗證碼)
-  - (其他依文章而定)
 
-## 名詞快查 / Glossary
-| 中文 | English | 說明 |
-|------|---------|------|
-| 區域 | Region | AWS 機房地理位置 |
-| ... | ... | ... |
+## 名詞解說 / Glossary
+用白話解釋 — 假設讀者從未接觸過雲端。
+| 名詞 | 說明 |
+|------|------|
+| Region(區域) | AWS 的機房位置,就像選一個城市。建議選「東京 (ap-northeast-1)」速度最快 |
+| IAM 使用者 | 為我們開一個專用帳號,讓我們能存取特定服務,但不能動到您的根帳號 |
+| Access Key | IAM 使用者的「密碼」,我們用這個連到您的 AWS 幫您部署 |
 
 ## 操作步驟 / Steps
 
 ### 步驟 1:xxx (Step 1: xxx)
 1. 開啟瀏覽器,前往 `https://...`
 2. 點擊「xxx (Xxx)」按鈕
-   ![中文 UI](images/NN_topic_step1_zh)
-   ![English UI](images/NN_topic_step1_en)
+   ![步驟示意](images/NN_topic_step1.webp)
+   *來源: [AWS Docs — XXX](https://docs.aws.amazon.com/...), 取用日期 2026-04-20*
 3. 填入...
 4. ...
 
 ### 步驟 2: ...
 
-## 完成後請回報 / Deliverables to Send Us
+## 完成後請提供以下資訊 / Please Send Us
 
-完成後請把以下資訊用安全管道(1Password / Bitwarden / 加密 email)傳給我們:
+完成後,麻煩您把以下資訊用安全方式(1Password / Bitwarden / 加密訊息)傳給我們,我們收到後就可以幫您把 lattice-cast 架起來:
 - xxx
 - yyy
 
-## 檢核清單 / Checklist
-助理操作完逐項打勾後回傳本文件:
+**若不知道如何用加密方式傳送,來信告訴我們,我們提供 1Password 共享連結。**
 
-- [ ] 已確認使用 `aws.amazon.com`(非 .cn)
-- [ ] 已開啟 Root 帳號 MFA
+## 操作確認清單 / Checklist
+以下項目您完成了就打勾,方便您和我們對照進度:
+
+- [ ] 已使用 `aws.amazon.com`(不是 `.cn` 結尾的網址)
+- [ ] 已開啟 Root 帳號的兩步驟驗證 (MFA)
 - [ ] (其他依文章而定)
-- [ ] 已將上方「完成後請回報」的資訊傳給我方
+- [ ] 已把上方「請提供以下資訊」的內容傳給我們
 
 ## 常見問題 / FAQ
-**Q: 信用卡刷不過怎麼辦?**
-A: ...
+**Q:信用卡一直刷不過?**
+A:AWS 有時會刷 $1 美金驗證卡片,若銀行擋下,請改用另一張卡,或聯絡發卡銀行開通境外扣款。
 
-**Q: 註冊頁顯示中文但網址有 .cn?**
-A: 立即關閉,從 https://aws.amazon.com 重新進入。
+**Q:不小心進到中國區怎麼辦?**
+A:沒關係,關閉視窗重開,從 `aws.amazon.com` 重新進入即可,不會扣款。
 
-## 出問題時 / If Something Goes Wrong
-聯絡:lifetreemastery@gmail.com,附上錯誤訊息截圖。
+**Q:看不懂某個英文按鈕?**
+A:直接把畫面截圖寄給我們(lifetreemastery@gmail.com),我們立刻告訴您要按哪裡。
+
+## 遇到問題聯絡我們 / If Something Goes Wrong
+📧 lifetreemastery@gmail.com — 附上畫面截圖,我們會儘快回覆協助您。
+
+---
+
+再次感謝您協助完成這部分!設定完成後,我們會接手把系統架起來,不會再打擾您。
 ```
 
 ---
@@ -160,8 +204,9 @@ A: 立即關閉,從 https://aws.amazon.com 重新進入。
 ## 5. 檔案命名與輸出位置
 
 ```
-./.tmp/AWS/
+./.tmp/2026-AWS-register/
 ├── rule.md                          # 本檔
+├── index.md                         # Jekyll directory page
 ├── 01_register_aws_account.md
 ├── 02_iam_user_access_key.md
 ├── 03_billing_alert.md
@@ -170,11 +215,13 @@ A: 立即關閉,從 https://aws.amazon.com 重新進入。
 ├── 06_s3_bucket.md
 ├── 07_rds_postgres.md
 ├── 99_checklist_overview.md         # 校對票輸出總覽
-└── images/                          # 所有截圖,從 .browser/ 搬入
-    ├── 01_register_step1_zh
-    ├── 01_register_step1_en
-    └── placeholder_*            # console 內頁待補
+└── images/                          # 所有圖,curl/browse.py 抓
+    ├── 01_register_step1.png
+    ├── 01_warning_china.png
+    └── 05_ec2_launch_wizard.png
 ```
+
+**注意**:檔案位置已從 `./.tmp/AWS/` 移至 `./.tmp/2026-AWS-register/`(Jekyll page 結構)。
 
 ---
 
@@ -204,23 +251,27 @@ A: 立即關閉,從 https://aws.amazon.com 重新進入。
 - [ ] 每篇有 §4 全部固定區塊(預估/名詞/步驟/回報/檢核/FAQ/出錯)
 - [ ] 中英對照格式一致(無單語言步驟)
 - [ ] 服務名英文未被誤譯
-- [ ] 截圖 LLM 已讀過、確認對應內容、命名遵循 §3.3
-- [ ] placeholder 截圖列入 `99_checklist_overview.md`
+- [ ] **每張圖都有來源標註**(§3.4 範例格式)
+- [ ] **無 placeholder.png、無「待補截圖」字眼**
+- [ ] 圖片 LLM 已 Read 確認對應內容
 - [ ] 檢核清單可逐項勾(無模糊項)
 - [ ] 安全規範 §6 在交付段落落實
+- [ ] 開頭加「截圖可能因 AWS 介面更新略有差異」免責句
 
-校對結果輸出/更新到 `./.tmp/AWS/99_checklist_overview.md`。
+校對結果輸出/更新到 `./.tmp/2026-AWS-register/99_checklist_overview.md`。
 
 ---
 
-## 8. 撰寫順序建議(worker 給單篇 issue 時遵循)
+## 8. 撰寫順序(worker 給單篇 issue 時遵循)
 
 1. 讀 `rule.md`(本檔)
 2. 讀該篇 issue 的 ticket doc(具體 scope)
-3. 開 browser container,截圖該篇所需公開頁
-4. **Read tool 讀每張 PNG**,確認內容
-5. 搬移 PNG 到 `./.tmp/AWS/images/` + 重新命名
-6. 撰寫 markdown,套用 §4 模板
-7. 列出 placeholder 清單(console 內頁)寫入文章末尾「## 待補截圖」
-8. 跑自檢:對照本檔 §7 逐項過
-9. 更新 ticket doc work log,提交
+3. **找圖**:
+   - WebFetch AWS 官方 Getting Started / Docs / Blog 頁,從 HTML 找 `<img src>`
+   - curl 下載到 `./.tmp/2026-AWS-register/images/<NN>_<step>.png`
+   - 補不足的:browse.py 截 AWS 公開頁(產品/定價/註冊著陸/.cn 警告對照)
+4. **Read tool 讀每張圖**,確認對應步驟
+5. 撰寫 markdown,套用 §4 模板,**每張圖下方加來源標註**
+6. **絕不留 placeholder**;若真的找不到圖照 §3.4 替代方案處理
+7. 跑自檢:對照本檔 §7 逐項過
+8. 更新 ticket doc work log,提交
