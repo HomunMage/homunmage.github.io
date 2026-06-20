@@ -22,7 +22,10 @@ SCREENSHOT_DIR = "/output"
 def get_browser():
     """Create a browser instance."""
     playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless=True)
+    browser = playwright.chromium.launch(
+        headless=True,
+        args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"]
+    )
     context = browser.new_context(
         viewport={"width": 1280, "height": 720},
         ignore_https_errors=True
@@ -77,7 +80,8 @@ def cmd_status(page, url=BASE_URL):
 def cmd_screenshot(page, url=BASE_URL, name=None):
     """Take a screenshot of the page."""
     try:
-        page.goto(url, wait_until="domcontentloaded", timeout=30000)
+        page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        page.wait_for_timeout(8000)
 
         if name is None:
             name = datetime.now().strftime("%Y%m%d_%H%M%S")

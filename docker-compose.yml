@@ -4,6 +4,7 @@ services:
       context: ./
     ports:
       - "127.0.0.1:14001:4000"
+      - "127.0.0.1:35729:35729"
     volumes:
       - ./:/site
       - bundle_cache:/usr/local/bundle
@@ -18,12 +19,12 @@ services:
       - browser
     build:
       context: ./browser
+    network_mode: host
     volumes:
+      - ./browser:/app
       - ./.browser:/output
     environment:
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
-    depends_on:
-      - static
     tty: true
     stdin_open: true
 
