@@ -1,0 +1,23 @@
+---
+layout: base
+---
+
+<script type="module" src="https://posetmage.com/wc/doc_ui.es.js"></script>
+
+<sidebar-component>
+    <table-of-contents></table-of-contents>
+</sidebar-component>
+
+<h1>{{ page.title }}</h1>
+
+<heading-id-injector>
+{{ content }}
+</heading-id-injector>
+
+<script>
+    var parentDirectory = "/Blog/"; // This variable can be used in other scripts
+</script>
+  
+<script src="https://posetmage.com/cdn/js/OtherBlogPosts.js"></script>
+
+

@@ -19,6 +19,10 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./pages
+      - name: Copy raw .md files to _site
+        run: find ./pages -name '*.md' -not -path '*/_layouts/*' -not -path '*/_includes/*' | while read f; do dest="_site/${f#./pages/}" && mkdir -p "$(dirname "$dest")" && cp "$f" "$dest"; done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:

@@ -1,0 +1,35 @@
+---
+layout: null
+---
+
+<script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@latest"></script>
+
+<style>  
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+    .markmap {
+      width: 100%;
+      height: 100%;
+    }
+    .markmap > svg {
+      width: 100%;
+      height: 100%;
+      color: white; /* White text color */
+    }
+    .markmap {
+      background-color: #292929; /* Gray background */
+    }
+    .markmap text { /* Ensures that all text elements within the SVG use white color */
+      fill: white;
+    }
+</style>
+
+<div class="markmap">
+    <script type="text/template">
+        {{ content }}
+    </script>
+</div>
+

@@ -1,0 +1,222 @@
+---
+layout: base
+---
+
+<script type="module" src="https://posetmage.com/wc/doc_ui.es.js"></script>
+
+<sidebar-component>
+    <toc id="toc-container">
+        Loading table of contents...
+    </toc>
+</sidebar-component>
+
+{{ content }}
+
+<div id="navigation-buttons" style="display: flex; justify-content: space-between;">
+    <button id="prev-btn" onclick="navigateToPrev()">←prev</button>
+    <button id="next-btn" onclick="navigateToNext()">next→</button>
+</div>
+
+<script>
+// Global variables to store TOC data
+let tocData = [];
+let numberedPages = new Map(); // Map to store number-title pages
+
+async function loadTOC() {
+    try {
+        // Get current page URL
+        const currentUrl = window.location.href;
+        
+        // Remove the final part (filename) from the URL
+        const urlParts = currentUrl.split('/');
+        urlParts.pop(); // Remove the last part (e.g., "0009.html")
+        
+        // Construct TOC endpoint URL
+        const baseUrl = urlParts.join('/');
+        const tocUrl = `${baseUrl}/toc`;
+        
+        console.log('Loading TOC from:', tocUrl);
+        
+        // Fetch the JSON data
+        const response = await fetch(tocUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // Parse JSON and store in global variable
+        tocData = await response.json();
+        
+        // Process and filter numbered pages
+        processNumberedPages(tocData);
+        
+        // Render the TOC
+        renderTOC();
+        
+    } catch (error) {
+        console.error('Error loading TOC:', error);
+        document.getElementById('toc-container').innerHTML = 'Error loading table of contents';
+    }
+}
+
+function processNumberedPages(data) {
+    numberedPages.clear();
+    
+    data.forEach(item => {
+        // Extract the final part of the URL (after last /)
+        const urlParts = item.url.split('/');
+        const finalPart = urlParts[urlParts.length - 1];
+        
+        // Check if it matches the pattern: starts with number and has a dash
+        const match = finalPart.match(/^(\d+)-(.+)$/);
+        
+        if (match) {
+            const pageNumber = parseInt(match[1], 10);
+            const pageTitle = match[2];
+            
+            // Store in map with number as key for sorting
+            numberedPages.set(pageNumber, {
+                number: pageNumber,
+                title: pageTitle,
+                url: item.url,
+                originalTitle: item.title
+            });
+        }
+    });
+    
+    console.log('Processed numbered pages:', numberedPages.size, 'items');
+}
+
+function renderTOC() {
+    const tocContainer = document.getElementById('toc-container');
+    
+    if (numberedPages.size === 0) {
+        tocContainer.innerHTML = 'No numbered pages found';
+        return;
+    }
+    
+    // Sort by page number and convert to HTML links
+    const sortedPages = Array.from(numberedPages.entries())
+        .sort(([a], [b]) => a - b) // Sort by page number
+        .map(([number, pageData]) => 
+            `<a href="${pageData.url}">${pageData.originalTitle}</a>`
+        );
+    
+    // Set the HTML content
+    tocContainer.innerHTML = sortedPages.join('<br>\n');
+    
+    console.log('TOC rendered:', sortedPages.length, 'numbered pages');
+    console.log('Numbered pages map:', numberedPages);
+}
+
+// Load TOC when the page loads
+document.addEventListener('DOMContentLoaded', loadTOC);
+
+// Also make the functions and data available globally
+window.loadTOC = loadTOC;
+window.tocData = tocData;
+window.numberedPages = numberedPages;
+</script>
+
+<script>
+// Navigation logic
+let currentPageNumber = null;
+let sortedPageNumbers = [];
+
+function initializeNavigation() {
+    // Get current page number from URL
+    const currentUrl = window.location.href;
+    const urlParts = currentUrl.split('/');
+    const currentFile = urlParts[urlParts.length - 1];
+    
+    // Extract current page number
+    const match = currentFile.match(/^(\d+)-(.+)$/);
+    if (match) {
+        currentPageNumber = parseInt(match[1], 10);
+    }
+    
+    // Get sorted page numbers from the map
+    sortedPageNumbers = Array.from(numberedPages.keys()).sort((a, b) => a - b);
+    
+    // Update button states
+    updateNavigationButtons();
+    
+    console.log('Current page number:', currentPageNumber);
+    console.log('Available pages:', sortedPageNumbers);
+}
+
+function updateNavigationButtons() {
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    
+    if (!currentPageNumber || sortedPageNumbers.length === 0) {
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+    }
+    
+    const currentIndex = sortedPageNumbers.indexOf(currentPageNumber);
+    
+    // Disable prev button if we're at the first page
+    prevBtn.disabled = (currentIndex <= 0);
+    
+    // Disable next button if we're at the last page
+    nextBtn.disabled = (currentIndex >= sortedPageNumbers.length - 1);
+}
+
+function navigateToPrev() {
+    if (!currentPageNumber || sortedPageNumbers.length === 0) return;
+    
+    const currentIndex = sortedPageNumbers.indexOf(currentPageNumber);
+    if (currentIndex > 0) {
+        const prevPageNumber = sortedPageNumbers[currentIndex - 1];
+        const prevPageData = numberedPages.get(prevPageNumber);
+        
+        if (prevPageData) {
+            window.location.href = prevPageData.url;
+        }
+    }
+}
+
+function navigateToNext() {
+    if (!currentPageNumber || sortedPageNumbers.length === 0) return;
+    
+    const currentIndex = sortedPageNumbers.indexOf(currentPageNumber);
+    if (currentIndex < sortedPageNumbers.length - 1) {
+        const nextPageNumber = sortedPageNumbers[currentIndex + 1];
+        const nextPageData = numberedPages.get(nextPageNumber);
+        
+        if (nextPageData) {
+            window.location.href = nextPageData.url;
+        }
+    }
+}
+
+// Initialize navigation after TOC is loaded
+function onTOCLoaded() {
+    // Wait a bit for the numberedPages to be populated
+    setTimeout(initializeNavigation, 100);
+}
+
+// Hook into the existing loadTOC function
+const originalLoadTOC = window.loadTOC;
+window.loadTOC = async function() {
+    await originalLoadTOC();
+    onTOCLoaded();
+};
+
+// Also initialize if TOC is already loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if numberedPages is already populated (in case of fast loading)
+    setTimeout(() => {
+        if (numberedPages.size > 0) {
+            initializeNavigation();
+        }
+    }, 200);
+});
+
+// Make navigation functions globally available
+window.navigateToPrev = navigateToPrev;
+window.navigateToNext = navigateToNext;
+window.initializeNavigation = initializeNavigation;
+</script>

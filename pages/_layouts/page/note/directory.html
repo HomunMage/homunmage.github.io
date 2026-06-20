@@ -1,0 +1,44 @@
+---
+layout: page/note/basic
+---
+
+<div class="page">
+  {{ content }}
+
+  <ul>
+  {% assign current_path_array = page.url | split: "/" %}
+  {% assign current_depth = current_path_array.size %}
+  {% assign next_depth = current_depth | plus: 1 %}
+
+  {% assign sorted_pages = site.pages | sort: "url" %}
+  {% if page.sort_reverse %}
+    {% assign sorted_pages = sorted_pages | reverse %}
+  {% endif %}
+  {% for file in sorted_pages %}
+    {% assign file_path = file.url %}
+    {% assign file_path_array = file.url | split: "/" %}
+    {% assign file_depth = file_path_array.size %}
+
+    {% if file_path contains page.url and file_path != page.url and file_depth == next_depth %}
+      {% assign last_element = file_path_array | last %}
+      {% if last_element contains ".html" %}
+        {% if file.title %}
+          <li><a href="./{{ last_element }}"><span class="uri-decode">{{ file.title }}</span></a></li>
+        {% else %}
+          <li><a href="./{{ last_element }}"><span class="uri-decode">{{ last_element | replace: '.html', '' }}</span></a></li>
+        {% endif %}
+      {% else %}
+        <li><a href="./{{ last_element }}/"><span class="uri-decode">{{ last_element }}</span></a></li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  </ul>
+</div>
+
+<script src="https://posetmage.com/cdn/js/URIDecoder.js"></script>
+
+
+<script>
+
+</script>

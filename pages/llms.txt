@@ -1,0 +1,24 @@
+# HomunMage
+
+> HomunMage is a sub-brand of PosetMage for AIGC and technology fields.
+
+## Site Structure
+
+- Home: /
+- About: /About/
+- Contact: /Contact/
+- Slides: /Slides/
+
+## How to Access Raw Markdown
+
+Every page on this site has a raw markdown source available.
+Append `index.md` to any page path to get the original markdown with YAML frontmatter.
+
+Example:
+- HTML page: /Slides/2026-ai-native-pm/
+- Raw markdown: /Slides/2026-ai-native-pm/index.md
+
+## Discovery
+
+- /sitemap.xml — full list of all pages
+- /Slides/ — directory listing of all slide decks

@@ -1,0 +1,24 @@
+---
+layout: null
+---
+
+{% assign url_parts = page.url | split: '/' %}
+{% assign parts_count = url_parts | size | minus: 1 %}
+{% assign base_url_parts = url_parts | slice: 0, parts_count %}
+{% assign toc_folder = base_url_parts | join: '/' %}
+{% assign toc_folder = toc_folder | append: '/' %}
+
+[
+{% assign first_item = true %}
+{% for p in site.pages %}
+  {% if p.url contains toc_folder %}
+    {% if first_item %}
+      {% assign first_item = false %}
+    {% else %},{% endif %}
+    {
+      "title": "{{ p.title | default: p.url | escape }}",
+      "url": "{{ site.baseurl }}{{ p.url }}"
+    }
+  {% endif %}
+{% endfor %}
+]

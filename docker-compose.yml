@@ -1,14 +1,13 @@
 services:
   static:
     build:
-      context: ./
+      context: ./pages
     ports:
       - "127.0.0.1:14001:4000"
       - "127.0.0.1:35729:35729"
     volumes:
-      - ./:/site
+      - ./pages:/site
       - bundle_cache:/usr/local/bundle
-      - /dev/null:/site/.claude
     command: >
       bash -c "bundle install && bundle exec jekyll serve --host 0.0.0.0 --livereload --force_polling"
     tty: true

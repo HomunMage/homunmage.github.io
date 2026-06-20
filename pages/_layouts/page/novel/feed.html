@@ -1,0 +1,29 @@
+---
+layout: null
+---
+
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.title }}</title>
+  <link href="https://yourdomain.com/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://yourdomain.com/" rel="alternate" type="text/html"/>
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <id>{{ site.url }}{{ site.baseurl }}/{{ page.categories }}</id>
+  <author>
+    <name>{{ site.title }}</name>
+    <email>{{ site.email }}</email>
+  </author>
+  <generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator>
+
+  {% assign filtered_pages = site.pages | where:"categories", page.categories %}
+  {% assign sorted_pages = filtered_pages | sort: 'date' | reverse %}
+  {% for pages in sorted_pages %}
+  <entry>
+    <title>{{ pages.title }}</title>
+    <link href="{{ site.url }}{{ post.url }}" />
+    <updated>{{ pages.date | date_to_xmlschema }}</updated>
+    <id>{{ site.url }}{{ pages.url }}</id>
+    <content type="html">{{ pages.content | xml_escape }}</content>
+  </entry>
+  {% endfor %}
+</feed>
