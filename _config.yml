@@ -51,6 +51,12 @@ exclude:
   - _layouts/.git/
   - _layouts/page/.git/
   - assets/.git/
+  - .claude
+  - .browser
+  - browser
+  - docker-compose.yml
+  - Dockerfile
+  - .dockerignore
 
 minima:
   skin: dark

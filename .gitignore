@@ -12,3 +12,7 @@ vendor
 *.7z
 
 
+.browser/
+.claude
+.claude/
+.tmp/
