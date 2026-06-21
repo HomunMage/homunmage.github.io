@@ -44,7 +44,7 @@ collections:
 
 
 # Build settings
-remote_theme: jekyll/minima
+# theme: minima  # using custom _layouts instead
 
 exclude:
   - _includes/.git/
@@ -65,8 +65,6 @@ plugins:
   - jekyll-external-links
   - jekyll-feed
   - jekyll-redirect-from
-  - jekyll-category-pages
-  - jekyll-remote-theme
   - jekyll-sitemap
   - jekyll-titles-from-headings
   - jekyll-seo-tag

@@ -15,16 +15,18 @@ jobs:
         with:
           submodules: 'recursive'  # This will recursively clone submodules
           fetch-depth: 0  # Fetch all history for .GitInfo and .Lastmod
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Build
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./pages
+      - name: Build Jekyll via Docker
+        run: |
+          docker build -t jekyll-build ./pages
+          docker run --rm -v ${{ github.workspace }}/pages:/site jekyll-build bash -c "bundle install && bundle exec jekyll build"
       - name: Copy raw .md files to _site
-        run: find ./pages -name '*.md' -not -path '*/_layouts/*' -not -path '*/_includes/*' | while read f; do dest="_site/${f#./pages/}" && mkdir -p "$(dirname "$dest")" && cp "$f" "$dest"; done
+        run: |
+          sudo chmod -R a+w pages/_site
+          find ./pages -name '*.md' -not -path '*/_layouts/*' -not -path '*/_includes/*' | while read f; do dest="pages/_site/${f#./pages/}" && mkdir -p "$(dirname "$dest")" && cp "$f" "$dest"; done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages/_site
   deploy:
     runs-on: ubuntu-latest
     needs: build

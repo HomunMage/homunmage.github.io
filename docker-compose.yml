@@ -1,5 +1,5 @@
 services:
-  static:
+  pages:
     build:
       context: ./pages
     ports:
